@@ -55,6 +55,8 @@ h1,h2,h3{margin:0}
 .tabs{display:flex;gap:.35rem}
 .tabs button{min-height:3rem;padding:0 1.4rem;border-radius:.7rem;border:2px solid var(--line);background:var(--surface);font-weight:700;font-size:1.2rem}
 .tabs button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tabs button.ended{background:var(--alert);border-color:var(--alert);color:var(--on-alert)}
+.tabs button.ended[aria-pressed="true"]{box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--alert)}
 .right{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
 .clock{display:flex;align-items:baseline;gap:.7rem;margin-left:3.6rem}
 .clock .lbl{font-size:.9rem;color:var(--muted);letter-spacing:.08em}
@@ -103,15 +105,23 @@ h1,h2,h3{margin:0}
 .p-vit .opt{flex-wrap:nowrap}
 .p-vit .opt button{min-height:2.3rem;padding:0 .5rem;font-size:.95rem}
 .p-vit .opt .lb{white-space:nowrap}
-.vr{display:grid;grid-template-columns:7.2rem minmax(0,1fr);align-items:center;gap:0 .5rem;padding:.3rem .8rem;border-top:1px solid var(--line)}
-.vl{font-size:1.1rem;font-weight:700;line-height:1.15}
-.vl small{display:block;font-weight:400;color:var(--muted);font-size:.8rem}
-.vc{display:flex;align-items:center;gap:.5rem;min-width:0}
-.vc input{width:7.4rem;height:clamp(2.1rem,5.4vh,3.1rem);min-height:0;text-align:center;font-family:var(--f-mono);font-weight:600;font-size:1.9rem;border:2px solid var(--line);border-radius:.6rem;background:var(--surface);font-variant-numeric:tabular-nums}
-.vc input.dirty{border-color:var(--warn);box-shadow:0 0 0 3px var(--warn)}
-.vc button.ok{min-width:5.2rem;height:clamp(2.1rem,5.4vh,3.1rem);min-height:0;border-radius:.6rem;border:2px solid var(--accent);background:var(--accent);color:var(--on-accent);font-weight:700;font-size:1.2rem}
-.vc .cur{display:flex;flex-direction:column;min-width:0;line-height:1.2}
-.vc .cur b{font-family:var(--f-mono);font-weight:500;font-size:.95rem;color:var(--muted)}
+.vr{display:grid;grid-template-columns:5rem 12.4rem 3.1rem 6.4rem minmax(0,1fr);align-items:center;column-gap:.5rem;padding:.3rem .7rem .3rem 1.4rem;border-top:1px solid var(--line)}
+.vl{font-size:1.3rem;font-weight:700;line-height:1.1;white-space:nowrap}
+.vu{font-size:.95rem;color:var(--muted);white-space:nowrap}
+.vc{display:contents}
+.vc>input{justify-self:start}
+.vc input{flex:none;width:6.8rem;min-width:0;height:clamp(2.1rem,4.4vh,3rem);min-height:0;text-align:center;font-family:var(--f-mono);font-weight:700;font-size:1.9rem;border:2px solid var(--line);border-radius:.55rem;background:var(--surface);font-variant-numeric:tabular-nums;padding:0 .2rem}
+.vbp{display:flex;align-items:center;gap:.3rem;justify-self:start}
+.vbp input{width:5.5rem}
+.vc input[type=number]{-moz-appearance:textfield;appearance:textfield}
+.vc input::-webkit-outer-spin-button,.vc input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.vbp em{font-style:normal;font-size:1.6rem;font-weight:700;color:var(--muted)}
+.vc input.dirty{border-color:var(--warn);box-shadow:inset 0 0 0 2px var(--warn)}
+.vc input:focus-visible,.vc input:focus{outline:3px solid var(--accent);outline-offset:-3px}
+
+.vc button.ok{width:100%;padding:.2rem .3rem;height:clamp(2rem,4.2vh,2.6rem);min-height:0;border-radius:.5rem;border:2px solid var(--accent);background:var(--accent);color:var(--on-accent);font-weight:700;font-size:.82rem;line-height:1.15;white-space:nowrap;text-align:center}
+.vc .cur{display:flex;flex-direction:column;min-width:0;line-height:1.2;padding-left:.3rem}
+.vc .cur b{white-space:nowrap;font-family:var(--f-mono);font-weight:500;font-size:.95rem;color:var(--muted)}
 .vc .cur i{font-style:normal;font-size:.82rem;color:var(--warn);min-height:1em}
 
 /* 接触・胸骨圧迫・測定 */
@@ -379,6 +389,190 @@ svg.chart text{font-family:var(--f-mono);font-size:12.5px;fill:var(--muted)}
   .ev{grid-template-columns:1fr}
   .cprtop{grid-template-columns:1fr}
 }
+
+/* ===== 見やすさ重視の配色・配置（鮮やか版） ===== */
+:root{
+  --bg:#DCE7F3; --surface:#FFFFFF; --ink:#0E1B2B; --muted:#4A5B6E; --line:#B9C9DB; --tile:#EAF1F8;
+  --accent:#0069D9; --accent-soft:#D6E8FF; --on-accent:#FFFFFF;
+  --alert:#E32616; --on-alert:#FFFFFF; --warn:#E87C00; --ok:#0F9D4F; --ok-soft:#CFF3DD; --alert-soft:#FFDAD5;
+  --c-hr:#0F9D4F; --c-spo2:#0069D9; --c-sys:#E32616; --c-co2:#8A35E0; --c-temp:#E87C00;
+  --pa-mon:#0069D9; --pa-vit:#0F9D4F; --pa-rhy:#8A35E0; --pa-cpa:#E32616; --pa-act:#0AA5A0; --pa-dz:#E87C00; --pa-q:#D6247A;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#071120; --surface:#10203A; --ink:#EAF2FF; --muted:#9DB4D2; --line:#27406A; --tile:#16294A;
+    --accent:#3DA0FF; --accent-soft:#0F3563; --on-accent:#04142B;
+    --alert:#FF6B5B; --on-alert:#2B0500; --warn:#FFB020; --ok:#3DDC84; --ok-soft:#0F3A24; --alert-soft:#4A1712;
+    --c-hr:#3DDC84; --c-spo2:#3DA0FF; --c-sys:#FF6B5B; --c-co2:#C58BFF; --c-temp:#FFB020;
+    --pa-mon:#3DA0FF; --pa-vit:#3DDC84; --pa-rhy:#C58BFF; --pa-cpa:#FF6B5B; --pa-act:#2FD8D1; --pa-dz:#FFB020; --pa-q:#FF6FB1;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#071120; --surface:#10203A; --ink:#EAF2FF; --muted:#9DB4D2; --line:#27406A; --tile:#16294A;
+  --accent:#3DA0FF; --accent-soft:#0F3563; --on-accent:#04142B;
+  --alert:#FF6B5B; --on-alert:#2B0500; --warn:#FFB020; --ok:#3DDC84; --ok-soft:#0F3A24; --alert-soft:#4A1712;
+  --c-hr:#3DDC84; --c-spo2:#3DA0FF; --c-sys:#FF6B5B; --c-co2:#C58BFF; --c-temp:#FFB020;
+  --pa-mon:#3DA0FF; --pa-vit:#3DDC84; --pa-rhy:#C58BFF; --pa-cpa:#FF6B5B; --pa-act:#2FD8D1; --pa-dz:#FFB020; --pa-q:#FF6FB1;
+}
+body{background:linear-gradient(180deg,var(--bg),color-mix(in srgb,var(--bg) 82%,var(--accent)) )}
+
+/* ヘッダー：濃紺〜青のバー */
+.bar{background:linear-gradient(100deg,#08285C 0%,#0A4FA8 55%,#0F86E8 100%);border-radius:1rem;padding:.55rem 1rem;color:#fff;box-shadow:0 3px 12px rgba(5,40,100,.35)}
+.brand h1{color:#fff}
+.clock .lbl{color:rgba(255,255,255,.85)} .clock .sub{color:rgba(255,255,255,.85)} .clock .t{color:#fff}
+.bar .tabs button{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.45);color:#fff}
+.bar .tabs button[aria-pressed="true"]{background:#fff;color:#08285C;border-color:#fff}
+.bar .tabs button.ended{background:#FF3B2B;border-color:#fff;color:#fff}
+.bar .tabs button.ended[aria-pressed="true"]{background:#fff;color:#C4170A;border-color:#FF3B2B}
+#btnScn.on{background:#FFD23F;border-color:#FFD23F;color:#3A2A00}
+.bar .btn{border-color:rgba(255,255,255,.6)}
+.btn.accent{background:#0F9D4F;border-color:#0F9D4F;color:#fff}
+.bar .btn.small{background:rgba(255,255,255,.16);color:#fff}
+
+/* パネル：色別の上帯と見出し */
+.panel{border:1px solid var(--line);border-top:6px solid var(--pa,var(--accent));box-shadow:0 2px 8px rgba(10,40,90,.10)}
+.phd h2{color:var(--pa,var(--accent));font-size:1.2rem}
+.phd{padding-top:.55rem}
+section[aria-label="モニターの表示"]{--pa:var(--pa-mon)}
+section[aria-label="バイタルサイン"]{--pa:var(--pa-vit)}
+section[aria-label="心電図リズム"]{--pa:var(--pa-rhy)}
+section[aria-label="CPA確認・胸骨圧迫"]{--pa:var(--pa-cpa)}
+section[aria-label="活動記録"]{--pa:var(--pa-act)}
+section[aria-label="解析・除細動"]{--pa:var(--pa-dz)}
+section[aria-label="その他の記録"]{--pa:var(--pa-q)}
+
+/* モニター表示ボタン */
+.tg button[aria-pressed="true"]{background:var(--pa-mon);border-color:var(--pa-mon);color:#fff}
+.tg button:not(:disabled):not([aria-pressed="true"]){border-color:color-mix(in srgb,var(--pa-mon) 45%,var(--line))}
+.mrow .btn.accent{background:var(--pa-mon);border-color:var(--pa-mon)}
+.st.on{color:var(--ok)}
+
+/* バイタル：項目ごとの色 */
+#vrows .vr:nth-child(1){--vc:var(--c-hr)} #vrows .vr:nth-child(2){--vc:var(--c-spo2)} #vrows .vr:nth-child(3){--vc:var(--c-sys)}
+#vrows .vr:nth-child(4){--vc:var(--c-temp)} #vrows .vr:nth-child(5){--vc:var(--c-co2)}
+#vrows .vr{border-left:6px solid var(--vc);background:color-mix(in srgb,var(--vc) 7%,transparent);margin:.2rem .6rem;padding-left:.8rem;border-radius:.5rem;border-top:0}
+#vrows .vl{color:var(--vc)}
+#vrows .vc input{border-color:var(--vc);color:var(--vc);background:var(--surface)}
+.vc button.ok{background:var(--vc);border-color:var(--vc);color:#fff}
+.vc input.dirty{border-color:var(--warn);box-shadow:inset 0 0 0 3px var(--warn)}
+.opt button[aria-pressed="true"]{background:var(--pa-vit);border-color:var(--pa-vit);color:#fff}
+
+/* 心電図リズム：右列で大きく */
+section[aria-label="心電図リズム"]{flex:1 1 auto;display:flex;flex-direction:column}
+section[aria-label="心電図リズム"] .rg{flex:1;grid-auto-rows:minmax(2.9rem,1fr)}
+.rg button{border-color:color-mix(in srgb,var(--pa-rhy) 40%,var(--line));font-size:1rem}
+.rg button[aria-pressed="true"]{background:var(--pa-rhy);border-color:var(--pa-rhy);color:#fff}
+.rg button.crit{border-color:color-mix(in srgb,var(--alert) 55%,var(--line));color:var(--alert)}
+.rg button.crit[aria-pressed="true"]{background:var(--alert);border-color:var(--alert);color:#fff}
+.rg button.flag{border-color:color-mix(in srgb,var(--warn) 60%,var(--line));color:var(--warn)}
+.rg button.flag[aria-pressed="true"]{background:var(--warn);border-color:var(--warn);color:#fff}
+
+/* CPA確認・心拍再開・病院到着・胸骨圧迫 */
+#bCpa{border-color:var(--pa-cpa);background:color-mix(in srgb,var(--pa-cpa) 10%,var(--surface));color:var(--pa-cpa)}
+#bRosc{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 10%,var(--surface));color:var(--ok)}
+#bHosp{border-color:var(--pa-rhy);background:color-mix(in srgb,var(--pa-rhy) 10%,var(--surface));color:var(--pa-rhy)}
+.key small{color:var(--muted)}
+.key.done{background:var(--ok);border-color:var(--ok);color:#fff}
+.key.done small{color:#fff}
+.key.cpr{border-color:var(--alert);color:var(--alert);background:color-mix(in srgb,var(--alert) 9%,var(--surface))}
+.key.cpr.on{background:var(--alert);color:#fff}
+.live{background:color-mix(in srgb,var(--pa-cpa) 8%,var(--tile));border:1px solid color-mix(in srgb,var(--pa-cpa) 25%,var(--line))}
+.meter:nth-child(1) .tv{color:var(--accent)} .meter:nth-child(2) .tv{color:var(--ok)} .meter:nth-child(3) .tv{color:var(--warn)}
+
+/* 活動記録 */
+.ag h3{color:#fff;background:var(--pa-act);display:inline-block;padding:.12rem .7rem;border-radius:99px;font-size:.92rem;margin:.6rem .1rem .3rem}
+.stamp{border-color:color-mix(in srgb,var(--pa-act) 40%,var(--line));border-left:6px solid var(--pa-act)}
+.ci.done .stamp{background:var(--ok-soft);border-color:var(--ok);border-left-color:var(--ok)}
+.stamp .tm{color:var(--ok)}
+
+/* 解析・除細動／その他 */
+.dzbtn{background:var(--accent);border-color:var(--accent);color:#fff;min-height:5rem}
+.dzbtn.shock{background:var(--pa-dz);border-color:var(--pa-dz);color:#fff}
+.dzst{color:var(--pa-dz);font-size:1.2rem}
+.quick button{border-color:color-mix(in srgb,var(--pa-q) 45%,var(--line));color:var(--pa-q);background:color-mix(in srgb,var(--pa-q) 6%,var(--surface))}
+.p-q .addrow .btn.accent,.addrow .btn.accent{background:var(--pa-q);border-color:var(--pa-q);color:#fff}
+
+/* 分析・評価：パネルの見出しも色付き */
+.ev .panel{border-top-color:var(--accent)}
+.ev h2{font-size:1rem}
+#evTl{--pa:var(--pa-act)} #evPt{--pa:var(--pa-rhy)} #scnEval{--pa:var(--pa-dz)}
+.ev h2{color:var(--pa,var(--accent))}
+.ratio .v,.tile .tv{font-weight:700}
+
+/* ===== 落ち着いた配色（上書き） ===== */
+:root{
+  --bg:#E6ECF2; --line:#C4D0DC; --tile:#EEF2F7; --muted:#51606F;
+  --accent:#2F6DB5; --accent-soft:#DDE8F5;
+  --alert:#C8473B; --alert-soft:#F8E1DD; --warn:#D08A2E; --ok:#2E8B57; --ok-soft:#DAEFE2;
+  --c-hr:#2E8B57; --c-spo2:#2F6DB5; --c-sys:#C8473B; --c-co2:#7C55B5; --c-temp:#D08A2E;
+  --pa-mon:#2F6DB5; --pa-vit:#2E8B57; --pa-rhy:#7C55B5; --pa-cpa:#C8473B; --pa-act:#2A8F8B; --pa-dz:#D08A2E; --pa-q:#B84B82;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1622; --surface:#142133; --line:#2B3E57; --tile:#192A41;
+    --accent:#6BA7E8; --accent-soft:#183456; --alert:#E58A7F; --warn:#E2B15F; --ok:#6BC796;
+    --c-hr:#6BC796; --c-spo2:#6BA7E8; --c-sys:#E58A7F; --c-co2:#B79BE0; --c-temp:#E2B15F;
+    --pa-mon:#6BA7E8; --pa-vit:#6BC796; --pa-rhy:#B79BE0; --pa-cpa:#E58A7F; --pa-act:#63C7C2; --pa-dz:#E2B15F; --pa-q:#E48DBA;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1622; --surface:#142133; --line:#2B3E57; --tile:#192A41;
+  --accent:#6BA7E8; --accent-soft:#183456; --alert:#E58A7F; --warn:#E2B15F; --ok:#6BC796;
+  --c-hr:#6BC796; --c-spo2:#6BA7E8; --c-sys:#E58A7F; --c-co2:#B79BE0; --c-temp:#E2B15F;
+  --pa-mon:#6BA7E8; --pa-vit:#6BC796; --pa-rhy:#B79BE0; --pa-cpa:#E58A7F; --pa-act:#63C7C2; --pa-dz:#E2B15F; --pa-q:#E48DBA;
+}
+body{background:var(--bg)}
+.bar{background:linear-gradient(100deg,#27415F 0%,#2F5A8A 60%,#3A73AC 100%);box-shadow:0 2px 8px rgba(30,50,80,.25)}
+.bar .tabs button[aria-pressed="true"]{color:#27415F}
+.bar .tabs button.ended{background:#C8473B}
+.bar .tabs button.ended[aria-pressed="true"]{color:#A83529;border-color:#C8473B}
+#btnScn.on{background:#E8C766;border-color:#E8C766;color:#3A2A00}
+.btn.accent{background:var(--ok);border-color:var(--ok)}
+.panel{box-shadow:0 1px 5px rgba(30,50,80,.10);border-top-width:5px}
+.key.done{background:var(--ok)}
+
+/* 配置入替：中央列＝リズム、右列＝活動記録 */
+section[aria-label="心電図リズム"]{flex:1 1 0;min-height:0}
+#colR .act{flex:1 1 0;min-height:0}
+#colR .ac{grid-template-columns:repeat(2,minmax(0,1fr))}
+#colR .p-dz,#colR .p-q{flex:none}
+
+/* バイタル入力：クリックで全選択しやすく */
+#vrows .vc input{cursor:text}
+
+/* ===== 配置：中央＝CPA／解析・除細動／リズム、右＝活動記録（全項目を表示） ===== */
+#pgOps{grid-template-columns:minmax(0,35fr) minmax(0,32fr) minmax(0,33fr)}
+#colM .p-dz{flex:none}
+#colM section[aria-label="心電図リズム"]{flex:1 1 0;min-height:0}
+#colR .ac{grid-template-columns:repeat(3,minmax(0,1fr));gap:.3rem}
+#colR #recGroups{overflow:auto;padding:0 .5rem .4rem}
+#colR .ag h3{margin:.3rem .1rem .2rem;padding:.05rem .6rem;font-size:.88rem}
+#colR .stamp{min-height:2.7rem;padding:.1rem .45rem}
+#colR .stamp .lb{font-size:.92rem;line-height:1.12}
+#colR .stamp .tm{font-size:.74rem;min-height:.9em}
+#colR .ci .x{width:1.6rem;height:1.6rem;font-size:.95rem;top:.1rem;right:.1rem}
+#colR .ci.done .stamp{padding-right:1.9rem}
+#colR .act .phd{padding-bottom:.1rem}
+#colR .act .st{font-size:.85rem}
+#colR .p-q .quick button{min-height:2.3rem;font-size:.92rem}
+#colR .p-q .phd{padding-bottom:.1rem}
+#colR .p-q .addrow input,#colR .p-q .addrow .btn{min-height:2.3rem}
+
+/* モニター表示：説明文と、音・表示オプションの区分け */
+.mnote2{margin:0;padding:.1rem .8rem .35rem;font-size:.95rem;font-weight:700;color:var(--pa-mon)}
+#mopt{margin:.75rem .8rem .7rem;padding:.55rem .6rem;border:2px solid color-mix(in srgb,var(--pa-mon) 55%,var(--line));border-radius:.8rem;background:color-mix(in srgb,var(--pa-mon) 9%,var(--surface))}
+#mopt::before{content:"音・表示オプション";grid-column:1 / -1;font-size:.85rem;font-weight:700;color:var(--pa-mon);margin-bottom:.05rem}
+
+/* ===== 活動記録：グループ間の余白／リズム・活動記録の文字を大きく（折り返しなし） ===== */
+#pgOps{grid-template-columns:minmax(0,33fr) minmax(0,30fr) minmax(0,37fr)}
+#colR .ag{margin-top:1rem}
+#colR .ag:first-child{margin-top:0}
+#colR .ac{grid-template-columns:repeat(2,minmax(0,1fr));gap:.3rem}
+#colR .stamp{min-height:3rem}
+#colR .stamp .lb{font-size:1.1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#colR .stamp .tm{font-size:.78rem}
+#colM .rg{grid-template-columns:repeat(2,minmax(0,1fr))}
+#colM .rg button{font-size:1.2rem;white-space:nowrap;padding:0 .3rem}
 </style>
 <link rel="icon" type="image/png" href="data:image/png;base64,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">
 </head>
@@ -412,6 +606,7 @@ svg.chart text{font-family:var(--f-mono);font-size:12.5px;fill:var(--muted)}
         <div class="mrow mself"><span class="il">このiPadを使う</span><span class="st mnote">PCの操作を映す画面にします</span><button class="btn small" data-act="ipadmode" title="このiPadを、PCの操作を映すモニター画面にします">iPadをモニターにする</button></div>
       </div>
       <p class="hint" id="mhint"></p>
+      <p class="mnote2">▼ ボタンをクリックで、モニターでの表示／非表示を切り替えます（青＝表示中）</p>
       <div class="tg" id="mvis"></div>
       <div class="tg" id="mopt"></div>
     </section>
@@ -419,19 +614,15 @@ svg.chart text{font-family:var(--f-mono);font-size:12.5px;fill:var(--muted)}
       <div class="phd"><h2>バイタルサイン</h2><div class="opt" id="ramp"><span class="lb">変化時間</span></div></div>
       <div id="vrows"></div>
     </section>
-    <section class="panel" aria-label="心電図リズム">
-      <div class="phd"><h2>心電図リズム</h2></div>
-      <div class="rg" id="rhy"></div>
-    </section>
   </div>
 
   <div class="col" id="colM">
     <section class="panel" aria-label="CPA確認・胸骨圧迫">
       <div class="keys">
-        <div class="kw"><button class="key" id="bCpa" data-act="stamp" data-id="cpa"><span>CPA確認</span><small>タップで記録</small></button><button class="x" id="x-cpa" data-act="clear" data-id="cpa" aria-label="CPA確認の記録を取り消す" hidden>×</button></div>
-        <div class="kw"><button class="key" id="bRosc" data-act="stamp" data-id="rosc"><span>心拍再開</span><small>タップで記録</small></button><button class="x" id="x-rosc" data-act="clear" data-id="rosc" aria-label="心拍再開の記録を取り消す" hidden>×</button></div>
-        <div class="kw"><button class="key" id="bHosp" data-act="stamp" data-id="hosp"><span>病院到着</span><small>タップで記録</small></button><button class="x" id="x-hosp" data-act="clear" data-id="hosp" aria-label="病院到着の記録を取り消す" hidden>×</button></div>
-        <button class="key cpr" id="bCpr" data-act="cpr"><span>胸骨圧迫 OFF</span><small>タップで開始</small></button>
+        <div class="kw"><button class="key" id="bCpa" data-act="stamp" data-id="cpa"><span>CPA確認</span><small>クリックで記録</small></button><button class="x" id="x-cpa" data-act="clear" data-id="cpa" aria-label="CPA確認の記録を取り消す" hidden>×</button></div>
+        <div class="kw"><button class="key" id="bRosc" data-act="stamp" data-id="rosc"><span>心拍再開</span><small>クリックで記録</small></button><button class="x" id="x-rosc" data-act="clear" data-id="rosc" aria-label="心拍再開の記録を取り消す" hidden>×</button></div>
+        <div class="kw"><button class="key" id="bHosp" data-act="stamp" data-id="hosp"><span>病院到着</span><small>クリックで記録</small></button><button class="x" id="x-hosp" data-act="clear" data-id="hosp" aria-label="病院到着の記録を取り消す" hidden>×</button></div>
+        <button class="key cpr" id="bCpr" data-act="cpr"><span>胸骨圧迫 OFF</span><small>クリックで開始</small></button>
       </div>
       <div class="live" id="live">
         <div class="state" id="liveState"><span>CPA確認を記録すると測定を開始します</span><span class="tm" id="liveTm"></span></div>
@@ -444,18 +635,22 @@ svg.chart text{font-family:var(--f-mono);font-size:12.5px;fill:var(--muted)}
         <p class="hint" id="rhint" style="padding:.3rem 0 0"></p>
       </div>
     </section>
-    <section class="panel act" aria-label="活動記録">
-      <div class="phd"><h2>活動記録</h2><span class="st">タップで現在時刻を記録 ／ ×で取消</span></div>
-      <div id="recGroups"></div>
-    </section>
-  </div>
-
-  <div class="col" id="colR">
     <section class="panel p-dz" aria-label="解析・除細動">
       <div class="phd"><h2>解析・除細動</h2></div>
       <div class="dzb"><button class="dzbtn" data-act="dz-an" id="dzAn">解析</button><button class="dzbtn shock" data-act="dz-sh" id="dzSh">除細動</button></div>
       <div class="dzst" id="dzSt"></div>
       <div class="opt"><span class="lb">除細動後</span><span id="outc" class="opt"></span></div>
+    </section>
+    <section class="panel" aria-label="心電図リズム">
+      <div class="phd"><h2>心電図リズム</h2></div>
+      <div class="rg" id="rhy"></div>
+    </section>
+  </div>
+
+  <div class="col" id="colR">
+    <section class="panel act" aria-label="活動記録">
+      <div class="phd"><h2>活動記録</h2><span class="st">クリックで現在時刻を記録 ／ ×で取消</span></div>
+      <div id="recGroups"></div>
     </section>
     <section class="panel p-q" aria-label="その他の記録">
       <div class="phd"><h2>その他の記録</h2></div>
@@ -464,10 +659,6 @@ svg.chart text{font-family:var(--f-mono);font-size:12.5px;fill:var(--muted)}
         <input type="text" id="addLabel" placeholder="例：家族へ状況説明" autocomplete="off" aria-label="追加する記録の名称">
         <button class="btn small accent" type="submit">記録</button>
       </form>
-    </section>
-    <section class="panel logp" aria-label="時系列ログ">
-      <div class="phd"><h2>時系列ログ</h2><span class="st">新しい順</span></div>
-      <ul class="log" id="logList"></ul>
     </section>
   </div>
 </main>
@@ -582,8 +773,8 @@ function visOn(v,k){if(k==='name')return !!v.name;if(k==='alarms')return v.alarm
 var GROUPS=[
  {g:'主要時系列',items:[['dispatch','出場'],['arrive','現場到着'],['contact','傷病者接触'],['move','収容開始'],['load','車内収容'],['depart','現場出発']]},
  {g:'観察・処置',items:[['mon','モニター心電図装着'],['ecg12','12誘導心電図記録'],['ecgtx','心電図伝送'],['o2','酸素投与開始'],['bvm','BVM(人工呼吸/補助換気)'],['pos','体位管理'],['pads','除細動パッド装着'],['rosc','心拍再開']]},
- {g:'特定行為',items:[['iv','静脈路確保'],['fluid','輸液開始'],['drug','薬剤投与(Ad/ブドウ糖)'],['adv','気道確保(LT/挿管)'],['bg','血糖測定']]},
- {g:'病院連絡',items:[['call1','受入要請'],['order','特定行為指示要請'],['detail','詳細報告']]}
+ {g:'病院連絡',items:[['call1','受入要請'],['order','特定行為指示要請'],['detail','詳細報告']]},
+ {g:'特定行為',items:[['iv','静脈路確保'],['fluid','輸液開始'],['drug','薬剤投与(Ad/ブドウ糖)'],['adv','気道確保(LT/挿管)'],['bg','血糖測定']]}
 ];
 var LBL={};GROUPS.forEach(function(g){g.items.forEach(function(it){LBL[it[0]]=it[1];});});
 LBL.cpa='CPA確認';LBL.shock1='除細動（初回）';LBL.rosc='心拍再開';LBL.hosp='病院到着';LBL.initial='初期評価完了';LBL.dest='搬送先決定';
@@ -970,12 +1161,13 @@ var JT={good:'良好',mid:'もう一息',bad:'要改善'};
 function buildStatic(){
   $('#rhy').innerHTML=RORD.map(function(id){return '<button data-act="rhy" data-id="'+id+'" class="'+(id==='vt'||id==='vf'||id==='asys'?'crit':'')+'" aria-pressed="false">'+esc(RSHORT[id])+'</button>';}).join('')+
     '<button class="flag" data-act="flag" data-k="st" id="btnST" aria-pressed="false">ST上昇</button><button class="flag" data-act="flag" data-k="pea" id="btnPEA" aria-pressed="false">無脈性（PEA）</button>';
-  $('#vrows').innerHTML=VD.map(function(d){
-    var k=d[0];
-    return '<div class="vr"><div class="vl">'+d[1]+'<small>'+d[2]+'</small></div><div class="vc">'+
-      '<input type="number" inputmode="decimal" id="vi-'+k+'" data-k="'+k+'" min="'+d[5]+'" max="'+d[6]+'" step="'+d[3]+'" aria-label="'+d[1]+'の数値を入力">'+
-      '<button class="ok" data-act="vok" data-k="'+k+'" aria-label="'+d[1]+'を確定してモニターへ反映">確定</button>'+
-      '<span class="cur"><b id="cv-'+k+'"></b><i id="vt-'+k+'"></i></span></div></div>';
+  function vin(d){var k=d[0];return '<input type="number" inputmode="decimal" id="vi-'+k+'" data-k="'+k+'" min="'+d[5]+'" max="'+d[6]+'" step="'+d[3]+'" aria-label="'+d[1]+'の数値を入力">';}
+  $('#vrows').innerHTML=VD.filter(function(d){return d[0]!=='dia';}).map(function(d){
+    var k=d[0],bp=k==='sys',dia=VD[3];
+    return '<div class="vr"><div class="vl">'+(bp?'血圧':d[1])+'</div><div class="vc">'+
+      (bp?'<span class="vbp">'+vin(d)+'<em>/</em>'+vin(dia)+'</span>':vin(d))+
+      '<span class="vu">'+(bp?'mmHg':d[2])+'</span><button class="ok" data-act="vok" data-k="'+k+'" aria-label="'+(bp?'血圧':d[1])+'をモニターへ反映">モニターへ<br>反映</button>'+
+      '<span class="cur"><b id="cv-'+k+'"></b><i id="vt-'+k+'"></i></span>'+(bp?'<span hidden><b id="cv-dia"></b><i id="vt-dia"></i></span>':'')+'</div></div>';
   }).join('');
   $('#ramp').insertAdjacentHTML('beforeend',[[0,'即時'],[10,'10秒'],[30,'30秒'],[60,'1分'],[120,'2分']].map(function(r){return '<button data-act="ramp" data-s="'+r[0]+'" aria-pressed="false">'+r[1]+'</button>';}).join(''));
   $('#outc').innerHTML=[['sinus','洞調律に回復'],['same','変化なし'],['asys','心静止']].map(function(o){return '<button data-act="outc" data-id="'+o[0]+'" aria-pressed="false">'+o[1]+'</button>';}).join('');
@@ -999,8 +1191,10 @@ function syncSim(){
     if(!DIRTY[k]&&document.activeElement!==inp)inp.value=fmtV(k,eff(k));
     inp.classList.toggle('dirty',!!DIRTY[k]);
     $('#cv-'+k).textContent='現在 '+fmtV(k,v[k]);
-    $('#vt-'+k).textContent=DIRTY[k]?'未確定':RAMP&&RAMP.tgt[k]!==undefined&&RAMP.tgt[k]!==v[k]?'→ 目標 '+fmtV(k,RAMP.tgt[k]):'';
+    $('#vt-'+k).textContent=DIRTY[k]?'未反映':RAMP&&RAMP.tgt[k]!==undefined&&RAMP.tgt[k]!==v[k]?'→ 目標 '+fmtV(k,RAMP.tgt[k]):'';
   });
+  $('#cv-sys').textContent='現在 '+fmtV('sys',v.sys)+'/'+fmtV('dia',v.dia);
+  if(DIRTY.dia&&!DIRTY.sys)$('#vt-sys').textContent='未反映';
   $('#vt-hr').textContent=($('#vt-hr').textContent||'')||(isPL(v)&&!v.pea?'無脈性：モニターは「--」':'');
   document.querySelectorAll('#ramp button').forEach(function(b){b.setAttribute('aria-pressed',String(Number(b.getAttribute('data-s'))===S.ramp));});
   document.querySelectorAll('#outc button').forEach(function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-id')===S.outcome));});
@@ -1015,11 +1209,12 @@ function renderHeader(){
   $('#elapsed').textContent=S.t0?dur((S.tEnd||now)-S.t0):'00:00';
   $('#sub').textContent=S.t0?('開始 '+clk(S.t0)+(S.tEnd?' ／ 終了 '+clk(S.tEnd):'')):'未開始';
   $('#btnStart').hidden=!!S.t0;
-  $('#btnEnd').textContent=S.tEnd?'評価を見る':'想定終了';
+  $('#btnEnd').hidden=!!S.tEnd;
+  var te=document.querySelector('.tabs [data-id="eval"]');if(te)te.classList.toggle('ended',!!S.tEnd);
 }
 function setKey(id,done,t){
   var b=$('#'+id);b.classList.toggle('done',done);var xb=$('#x-'+id.slice(1).toLowerCase());if(xb)xb.hidden=!done;
-  b.querySelector('small').textContent=done?clk(t)+(id==='bRosc'&&S.st.cpa?'（CPA確認+'+dur(t-S.st.cpa)+'）':id==='bHosp'&&S.st.contact?'（接触+'+dur(t-S.st.contact)+'）':''):'タップで記録';
+  b.querySelector('small').textContent=done?clk(t)+(id==='bRosc'&&S.st.cpa?'（CPA確認+'+dur(t-S.st.cpa)+'）':id==='bHosp'&&S.st.contact?'（接触+'+dur(t-S.st.contact)+'）':''):'クリックで記録';
   b.setAttribute('aria-pressed',String(done));
 }
 function syncLive(){
@@ -1029,7 +1224,7 @@ function syncLive(){
   b.classList.toggle('on',on);b.setAttribute('aria-pressed',String(on));
   b.disabled=!S.st.cpa||(ended&&!on);
   b.querySelector('span').textContent='胸骨圧迫 '+(on?'ON':'OFF');
-  b.querySelector('small').textContent=on?'タップで中断（心電図にノイズ表示中）':(!S.st.cpa?'先にCPA確認を記録してください':ended?'測定終了':'タップで開始（約110回/分のノイズ）');
+  b.querySelector('small').textContent=on?'クリックで中断（心電図にノイズ表示中）':(!S.st.cpa?'先にCPA確認を記録してください':ended?'測定終了':'クリックで開始（約110回/分のノイズ）');
   $('#bRosc').disabled=!S.st.cpa&&!S.st.rosc;$('#bHosp').disabled=false;
   var c=cprStats(now),st=$('#liveState'),tm=$('#liveTm');
   if(!c){st.className='state';st.firstChild.textContent='CPA確認を記録すると測定を開始します';tm.textContent='';
@@ -1063,6 +1258,7 @@ function renderRec(){
   syncLive();
 }
 function renderLog(){
+  if(!$('#logList'))return;
   var L=S.log.slice(-80).reverse();
   $('#logList').innerHTML=L.length?L.map(function(e){return '<li data-c="'+e.cat+'"><span class="m">'+clk(e.ms)+'</span><span>'+esc(e.text)+'</span></li>';}).join(''):'<li class="empty">記録・操作はここに時系列で表示されます。</li>';
 }
@@ -1269,21 +1465,20 @@ document.addEventListener('click',function(e){
       simCall('cpr',false);
       S=fresh();RAMP=null;save();b.textContent='記録を消去して新しい訓練を始める';
       renderAll();showTab('ops');
-    }else{b.textContent='もう一度タップで消去します（元に戻せません）';resetArmed=setTimeout(function(){resetArmed=null;b.textContent='記録を消去して新しい訓練を始める';},4000);}
+    }else{b.textContent='もう一度クリックで消去します（元に戻せません）';resetArmed=setTimeout(function(){resetArmed=null;b.textContent='記録を消去して新しい訓練を始める';},4000);}
   }
 });
 function confirmVit(k){
-  var inp=$('#vi-'+k),v=parseFloat(inp.value);
-  DIRTY[k]=false;
-  if(isFinite(v)){var o={};o[k]=v;changeVit(o);}else syncSim();
-  inp.blur();
+  var ks=(k==='sys'||k==='dia')?['sys','dia']:[k],o={},any=false;
+  ks.forEach(function(q){var inp=$('#vi-'+q),v=parseFloat(inp.value);DIRTY[q]=false;if(isFinite(v)){o[q]=v;any=true;}inp.blur();});
+  if(any)changeVit(o);else syncSim();
 }
 document.addEventListener('input',function(e){
   var t=e.target;
   if(t&&t.id&&t.id.indexOf('vi-')===0){DIRTY[t.getAttribute('data-k')]=true;syncSim();}
 });
 document.addEventListener('keydown',function(e){
-  if(e.target&&e.target.id&&e.target.id.indexOf('vi-')===0&&e.key==='Enter'){e.preventDefault();confirmVit(e.target.getAttribute('data-k'));}
+  if(e.target&&e.target.id&&e.target.id.indexOf('vi-')===0&&e.key==='Enter'){e.preventDefault();}
 });
 $('#addForm').addEventListener('submit',function(e){e.preventDefault();var i=$('#addLabel');addCustom(i.value);i.value='';});
 $('#ptForm').addEventListener('submit',function(e){e.preventDefault();var i=$('#ptLabel'),t=i.value.trim();if(!t)return;S.pts.push([t,'']);save();i.value='';renderEvalForm();renderReport();});
@@ -1871,6 +2066,15 @@ function ipadMode(){
     try{var r=cur()?ex.call(document):req.call(de);if(r&&r.catch)r.catch(function(){});}catch(e){}
   });
   document.addEventListener('fullscreenchange',sync);document.addEventListener('webkitfullscreenchange',sync);
+})();
+
+/* バイタル数値：クリック／フォーカスで全選択 */
+(function(){
+  function sel(e){var t=e.target;if(t&&t.matches&&t.matches('#vrows input')){var f=function(){try{t.select();}catch(x){}};f();setTimeout(f,0);}}
+  document.addEventListener('focusin',sel);
+  document.addEventListener('click',sel);
+  document.addEventListener('mouseup',function(e){var t=e.target;if(t&&t.matches&&t.matches('#vrows input')&&t.dataset.selNext){e.preventDefault();delete t.dataset.selNext;}});
+  document.addEventListener('mousedown',function(e){var t=e.target;if(t&&t.matches&&t.matches('#vrows input')&&document.activeElement!==t)t.dataset.selNext='1';});
 })();
 </script>
 </body>
