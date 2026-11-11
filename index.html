@@ -6,7 +6,7 @@
 <title>救急訓練シミュレーター 操作・評価</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=IBM+Plex+Mono:wght@500;600&family=Share+Tech+Mono&display=swap">
 <style>
 :root{
   --bg:#EDF0F2; --surface:#FFFFFF; --ink:#16212B; --muted:#5A6A77; --line:#D3DAE0; --tile:#F3F6F8;
@@ -14,6 +14,7 @@
   --alert:#BF2F22; --on-alert:#FFFFFF; --warn:#9A5B00; --ok:#1F7A45; --ok-soft:#DDF1E5; --alert-soft:#FBE4E0;
   --c-hr:#1F7A45; --c-spo2:#0A6C8C; --c-sys:#BF2F22; --c-co2:#7B4FB0;
   --f-body:"BIZ UDPGothic","Hiragino Sans","Noto Sans JP","Yu Gothic",system-ui,sans-serif;
+  --f-time:"Share Tech Mono","Orbitron","DejaVu Sans Mono",Consolas,ui-monospace,monospace;
   --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
 }
 @media (prefers-color-scheme: dark){
@@ -60,8 +61,8 @@ h1,h2,h3{margin:0}
 .right{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
 .clock{display:flex;align-items:baseline;gap:.7rem;margin-left:3.6rem}
 .clock .lbl{font-size:.9rem;color:var(--muted);letter-spacing:.08em}
-.clock .t{font-family:var(--f-mono);font-weight:600;font-size:2.8rem;line-height:1.1;font-variant-numeric:tabular-nums}
-.clock .sub{font-size:.9rem;color:var(--muted);font-family:var(--f-mono)}
+.clock .t{font-family:var(--f-time);font-weight:400;font-size:2.8rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.clock .sub{font-size:.9rem;color:var(--muted);font-family:var(--f-time)}
 .btn{min-height:3rem;padding:0 1.3rem;border-radius:.7rem;border:2px solid var(--line);background:var(--surface);font-weight:700;font-size:1.1rem}
 .btn.accent{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 .btn.end{background:var(--alert);border-color:var(--alert);color:var(--on-alert)}
@@ -141,11 +142,11 @@ h1,h2,h3{margin:0}
 .live .state{display:flex;justify-content:space-between;align-items:baseline;gap:.6rem;font-weight:700;font-size:1.35rem}
 .live .state.pause{color:var(--alert)}
 .live .state.run{color:var(--ok)}
-.live .state .tm{font-family:var(--f-mono);font-size:2.4rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.live .state .tm{font-family:var(--f-time);font-size:2.4rem;line-height:1.1;font-variant-numeric:tabular-nums}
 .meters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.4rem;margin-top:.3rem}
 .meter{display:flex;flex-direction:column;min-width:0}
 .meter .tl{font-size:.85rem;color:var(--muted)}
-.meter .tv{font-family:var(--f-mono);font-weight:600;font-size:1.9rem;line-height:1.15;font-variant-numeric:tabular-nums}
+.meter .tv{font-family:var(--f-time);font-weight:400;font-size:1.9rem;line-height:1.15;font-variant-numeric:tabular-nums}
 
 /* 活動記録 */
 .act{flex:1;min-height:0;display:flex;flex-direction:column}
@@ -155,7 +156,7 @@ h1,h2,h3{margin:0}
 .ci{position:relative;min-width:0}
 .stamp{width:100%;height:100%;min-height:3.2rem;border-radius:.65rem;border:2px solid var(--line);background:var(--surface);padding:.2rem .55rem;text-align:left;display:flex;flex-direction:column;justify-content:center}
 .stamp .lb{font-weight:700;font-size:1.05rem;line-height:1.15}
-.stamp .tm{font-family:var(--f-mono);font-size:.85rem;color:var(--ok);font-weight:600;min-height:1em}
+.stamp .tm{font-family:var(--f-time);font-size:.85rem;color:var(--ok);font-weight:400;min-height:1em}
 .ci.done .stamp{background:var(--ok-soft);border-color:var(--ok);padding-right:2.3rem}
 .ci .x{position:absolute;top:.2rem;right:.2rem;width:2rem;height:2rem;border-radius:50%;border:1px solid var(--line);background:var(--surface);font-size:1.1rem;line-height:1;color:var(--muted);padding:0}
 
@@ -173,7 +174,7 @@ h1,h2,h3{margin:0}
 .logp{flex:1;display:flex;flex-direction:column}
 .log{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;list-style:none;margin:0;padding:0 .7rem .6rem;display:flex;flex-direction:column;gap:.3rem}
 .log li{display:grid;grid-template-columns:5.3rem minmax(0,1fr);gap:.5rem;font-size:1.05rem;line-height:1.3;padding:.3rem .5rem;border-radius:.45rem;border-left:5px solid var(--line)}
-.log li .m{font-family:var(--f-mono);font-size:.92rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.log li .m{font-family:var(--f-time);font-size:.92rem;color:var(--muted);font-variant-numeric:tabular-nums}
 .log li[data-c="rec"]{border-left-color:var(--ok)}
 .log li[data-c="cpr"]{border-left-color:var(--alert);background:var(--alert-soft)}
 .log li[data-c="shock"]{border-left-color:var(--warn)}
@@ -192,7 +193,7 @@ h1,h2,h3{margin:0}
 .ev h3{font-size:.8rem;margin:.7rem 0 .3rem;color:var(--muted)}
 .cprtop{display:grid;grid-template-columns:minmax(12rem,.7fr) minmax(0,2fr);gap:1rem;align-items:center}
 .ratio{border-radius:.9rem;padding:.8rem 1rem;text-align:center;background:var(--tile)}
-.ratio .v{font-family:var(--f-mono);font-weight:600;font-size:3.4rem;line-height:1.05;font-variant-numeric:tabular-nums}
+.ratio .v{font-family:var(--f-time);font-weight:400;font-size:3.4rem;line-height:1.05;font-variant-numeric:tabular-nums}
 .ratio .l{font-size:.82rem;color:var(--muted)}
 .ratio .j{display:inline-block;margin-top:.3rem;padding:.1rem .7rem;border-radius:99px;font-weight:700;font-size:.85rem}
 .ratio[data-j="good"]{background:var(--ok-soft)} .ratio[data-j="good"] .v{color:var(--ok)} .ratio[data-j="good"] .j{background:var(--ok);color:var(--on-accent)}
@@ -201,7 +202,7 @@ h1,h2,h3{margin:0}
 .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(9.5rem,1fr));gap:.45rem}
 .tile{display:flex;flex-direction:column;padding:.4rem .6rem;border-radius:.55rem;background:var(--tile);min-width:0}
 .tile .tl{font-size:.72rem;color:var(--muted)}
-.tile .tv{font-family:var(--f-mono);font-weight:600;font-size:1.35rem;line-height:1.25;font-variant-numeric:tabular-nums}
+.tile .tv{font-family:var(--f-time);font-weight:400;font-size:1.35rem;line-height:1.25;font-variant-numeric:tabular-nums}
 .tile .tv.bad{color:var(--alert)}
 .tile .tn{font-size:.7rem;color:var(--muted)}
 .tl-bar{position:relative;height:2.2rem;border-radius:.4rem;background:var(--alert-soft);border:1px solid var(--line);overflow:hidden;margin-top:.3rem}
@@ -211,7 +212,7 @@ h1,h2,h3{margin:0}
 table{width:100%;border-collapse:collapse;font-size:.86rem}
 th,td{text-align:left;padding:.3rem .5rem;border-bottom:1px solid var(--line);vertical-align:top}
 th{font-size:.72rem;color:var(--muted);font-weight:700;letter-spacing:.06em}
-td.m{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+td.m{font-family:var(--f-time);font-variant-numeric:tabular-nums;white-space:nowrap}
 td.bad{color:var(--alert);font-weight:700}
 .tw{max-height:26rem;overflow:auto}
 /* 分析・評価：時系列→活動の評価を縦並びで大きく（モニター投影しながらのフィードバック用） */
@@ -299,12 +300,12 @@ svg.chart text{font-family:var(--f-mono);font-size:12.5px;fill:var(--muted)}
 .scn-live{margin-top:.5rem;padding:.4rem .7rem .6rem;border:2px solid var(--warn);border-radius:.7rem}
 .scn-el{display:flex;align-items:center;gap:.7rem}
 .scn-el span{color:var(--muted);font-size:.9rem}
-.scn-el b{font-family:var(--f-mono);font-size:1.7rem;font-variant-numeric:tabular-nums;flex:1}
+.scn-el b{font-family:var(--f-time);font-size:1.7rem;font-variant-numeric:tabular-nums;flex:1}
 .scn-el button[aria-pressed="false"]{border-color:var(--alert);color:var(--alert)}
 .scn-live h3{margin-top:.5rem}
 .feed{list-style:none;padding:0!important;display:flex;flex-direction:column;gap:.3rem}
 .feed li{padding:.35rem .55rem;border-radius:.5rem;background:var(--tile);border-left:5px solid var(--warn)}
-.feed .m{display:block;font-family:var(--f-mono);font-size:.8rem;color:var(--muted)}
+.feed .m{display:block;font-family:var(--f-time);font-size:.8rem;color:var(--muted)}
 .scn-key{font-family:var(--f-mono);font-size:.9rem;background:var(--tile);padding:.3rem .5rem;border-radius:.4rem}
 .prc{list-style:none;padding:0!important;display:flex;flex-direction:column;gap:.3rem}
 .prc li{padding:.35rem .55rem;border-radius:.5rem;border:1px solid var(--line)}
@@ -312,7 +313,7 @@ svg.chart text{font-family:var(--f-mono);font-size:12.5px;fill:var(--muted)}
 .prc li.pend{background:var(--alert-soft);border-color:var(--alert)}
 .prc li div{display:flex;justify-content:space-between;gap:.6rem;align-items:baseline}
 .prc li b{font-size:.95rem}
-.prc li .tg{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);white-space:nowrap}
+.prc li .tg{font-family:var(--f-time);font-size:.8rem;color:var(--muted);white-space:nowrap}
 .prc li p{font-size:.85rem;color:var(--muted)}
 .scn-toast{position:fixed;left:50%;bottom:1.2rem;transform:translateX(-50%);max-width:min(60rem,92vw);z-index:60;background:var(--ink);color:var(--bg);padding:.8rem 1.4rem;border-radius:.9rem;font-size:1.3rem;font-weight:700;line-height:1.4;box-shadow:0 8px 28px rgba(0,0,0,.4);pointer-events:none;border:3px solid var(--warn)}
 #scnEval .scn-ev{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.2rem}
@@ -609,6 +610,58 @@ body.paused .clock .t{color:#FFD23F}
 #chips .stamp .tm{font-size:.68rem;min-height:0}
 #chips .ci .x{width:1.35rem;height:1.35rem;font-size:.8rem}
 #chips .ci.done .stamp{padding-right:1.5rem}
+
+/* 活動記録：各項目を1列・縦に並べる（左＝項目名、右＝記録時刻） */
+#colR #recGroups .ac{grid-template-columns:1fr;gap:.22rem}
+#colR #recGroups .ag{margin-top:.6rem}
+#colR #recGroups .stamp{flex-direction:row;align-items:center;justify-content:space-between;gap:.6rem;min-height:2.2rem;padding:.1rem .5rem}
+#colR #recGroups .stamp .lb{font-size:1.05rem;flex:none;max-width:60%}
+#colR #recGroups .stamp .tm{font-size:.8rem;text-align:right;min-height:0;margin-left:auto}
+#colR #recGroups .stamp .tm .hn{font-size:.7rem}
+#colR #recGroups .ci.done .stamp{padding-right:2.1rem}
+#colR #recGroups .ci .x{top:50%;transform:translateY(-50%)}
+
+/* 活動記録：2列配置（左＝主要時系列・観察処置／右＝病院連絡・特定行為）。スクロールなしで全表示 */
+#pgOps{grid-template-columns:minmax(0,32fr) minmax(0,29fr) minmax(0,39fr)}
+#colR #recGroups{padding:0 .4rem .3rem}
+#colR .rcols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem;align-items:start}
+#colR .rcol{min-width:0}
+#colR #recGroups .ag{margin-top:.35rem}
+#colR #recGroups .ag:first-child{margin-top:0}
+#colR #recGroups .ag h3{margin:.1rem .1rem .2rem}
+#colR #recGroups .ac{gap:.18rem}
+#colR #recGroups .stamp{flex-wrap:wrap;gap:0 .4rem;min-height:2.05rem;padding:.05rem .4rem}
+#colR #recGroups .stamp .lb{font-size:.98rem;flex:0 1 auto;max-width:100%;min-width:0;max-width:none;white-space:nowrap}
+#colR #recGroups .stamp .tm{font-size:.74rem;flex:1 1 auto}
+
+/* 活動記録：拡大＋グループ間の余白 */
+#colR #recGroups{padding:0 .6rem .4rem}
+#colR .rcols{gap:.8rem}
+#colR #recGroups .ag{margin-top:1.7rem}
+#colR #recGroups .ag:first-child{margin-top:0}
+#colR #recGroups .ag h3{font-size:1.05rem;padding:.1rem .8rem;margin:0 .1rem .4rem}
+#colR #recGroups .ac{gap:.3rem}
+#colR #recGroups .stamp{min-height:2.75rem;padding:.1rem .6rem;border-left-width:7px;border-radius:.7rem}
+#colR #recGroups .stamp .lb{font-size:1.2rem}
+#colR #recGroups .stamp .tm{font-size:.95rem;letter-spacing:.02em}
+#colR #recGroups .stamp .tm .hn{font-size:.78rem}
+#colR #recGroups .ci.done .stamp{padding-right:2.5rem}
+#colR #recGroups .ci .x{width:1.9rem;height:1.9rem;font-size:1.1rem;right:.4rem}
+#colR .act .phd h2{font-size:1.3rem}
+#colR .act .st{font-size:.95rem}
+
+/* 行揃え：観察・処置と特定行為の開始位置を合わせる／項目高さを圧縮 */
+#colR .rcols{align-items:start;row-gap:1rem}
+#colR .rc2{min-width:0}
+#colR .rc2 .ag+.ag{margin-top:.7rem}
+#colR .rc2 .ag+.ag .stamp{min-height:1.95rem}
+#colR .rc2 .ag+.ag .stamp .lb{font-size:.95rem}
+#colR .rc2 .ag+.ag .ac{gap:.15rem}
+#colR #recGroups .ag{margin-top:0}
+#colR #recGroups .ag h3{margin:0 .1rem .3rem}
+#colR #recGroups .ac{gap:.22rem}
+#colR #recGroups .stamp{min-height:2.45rem}
+#colR #recGroups .stamp .lb{font-size:1.1rem}
 </style>
 <link rel="icon" type="image/png" href="data:image/png;base64,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">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js" async></script>
@@ -655,6 +708,7 @@ body.paused .clock .t{color:#FFD23F}
 
   <div class="col" id="colM">
     <section class="panel" aria-label="CPA確認・胸骨圧迫">
+      <div class="phd"><h2>胸骨圧迫比率</h2></div>
       <div class="keys">
         <div class="kw"><button class="key" id="bCpa" data-act="stamp" data-id="cpa"><span>CPA確認</span><small>クリックで記録</small></button><button class="x" id="x-cpa" data-act="clear" data-id="cpa" aria-label="CPA確認の記録を取り消す" hidden>×</button></div>
         <div class="kw"><button class="key" id="bRosc" data-act="stamp" data-id="rosc"><span>心拍再開</span><small>クリックで記録</small></button><button class="x" id="x-rosc" data-act="clear" data-id="rosc" aria-label="心拍再開の記録を取り消す" hidden>×</button></div>
@@ -679,7 +733,7 @@ body.paused .clock .t{color:#FFD23F}
       <div class="opt"><span class="lb">除細動後</span><span id="outc" class="opt"></span></div>
     </section>
     <section class="panel" aria-label="心電図リズム">
-      <div class="phd"><h2>心電図リズム</h2></div>
+      <div class="phd"><h2>心電図波形</h2></div>
       <div class="rg" id="rhy"></div>
     </section>
   </div>
@@ -819,16 +873,17 @@ var OPTS=[['name','リズム名'],['alarms','警報表示'],['sound','心拍音'
 function visOn(v,k){if(k==='name')return !!v.name;if(k==='alarms')return !!v.alarms;if(k==='sound')return !!v.sound;if(k==='voice')return v.voice!==false;return !!(v.vis||{})[k];}
 var GROUPS=[
  {g:'主要時系列',items:[['dispatch','出場'],['arrive','現場到着'],['contact','傷病者接触'],['move','収容開始'],['load','車内収容'],['depart','現場出発']]},
- {g:'観察・処置',items:[['mon','モニター心電図装着'],['ecg12','12誘導心電図記録'],['ecgtx','心電図伝送'],['o2','酸素投与開始'],['bvm','BVM(人工呼吸/補助換気)'],['pos','体位管理'],['pads','除細動パッド装着'],['rosc','心拍再開']]},
+ {g:'観察・処置',items:[['mon','四肢誘導心電図'],['ecg12','12誘導心電図'],['ecgtx','心電図伝送'],['pads','除細動パッド装着'],['bg','血糖測定'],['o2','酸素投与'],['q_suction','吸引'],['bvm','BVM(人工呼吸/補助換気)'],['q_hemo','止血'],['pos','体位管理']]},
  {g:'病院連絡',items:[['call1','受入要請'],['order','特定行為指示要請'],['detail','詳細報告']]},
- {g:'特定行為',items:[['iv','静脈路確保'],['fluid','輸液開始'],['drug','薬剤投与(Ad/ブドウ糖)'],['adv','気道確保(LT/挿管)'],['bg','血糖測定']]}
+ {g:'特定行為',items:[['iv','静脈路確保'],['adr','アドレナリン投与'],['glu','ブドウ糖投与'],['lt','LT挿入'],['ett','気管挿管'],['epi','エピペン']]}
 ];
 var LBL={};GROUPS.forEach(function(g){g.items.forEach(function(it){LBL[it[0]]=it[1];});});
-LBL.cpa='CPA確認';LBL.shock1='除細動（初回）';LBL.rosc='心拍再開';LBL.hosp='病院到着';LBL.initial='初期評価完了';LBL.dest='搬送先決定';
-var MULTI={iv:2,adv:3,drug:10,x_airway:3,x_glu:10,x_ad:10};   // 複数回記録できる項目と上限回数
+LBL.fluid='輸液開始';LBL.adv='気道確保（LT/挿管）';LBL.cpa='CPA確認';LBL.shock1='除細動（初回）';LBL.rosc='心拍再開';LBL.hosp='病院到着';LBL.initial='初期評価完了';LBL.dest='搬送先決定';
+var ALIAS={iv:['fluid'],lt:['adv'],ett:['adv']};   // 静脈路確保＝輸液開始、LT挿入／気管挿管＝気道確保として想定票に反映
+var MULTI={iv:2,adr:10,glu:2,ett:2,x_airway:3,x_glu:10,x_ad:10};   // 複数回記録できる項目と上限回数
 function occ(id){var a=(S.mu&&S.mu[id])||[];if(!a.length&&S.st[id])a=[S.st[id]];return a;}
-var QUICK=[['q_assist','応援要請'],['q_lg','ロード&ゴー'],['q_family','家族への説明'],['q_info','追加情報の付与'],['q_suction','吸引'],['q_hemo','止血']];
-QUICK.forEach(function(q){LBL[q[0]]=q[1];});
+var QUICK=[['q_assist','応援要請'],['q_lg','ロード&ゴー'],['q_family','家族への説明'],['q_info','追加情報の付与']];
+QUICK.forEach(function(q){LBL[q[0]]=q[1];});LBL.q_suction='吸引';LBL.q_hemo='止血';
 var PTS0=[
  ['状況評価・感染防御','安全確認、感染防御、応援要請の判断ができたか'],
  ['初期評価と緊急度判断','意識・気道・呼吸・循環を評価し、緊急度（ロード＆ゴーなど）を判断できたか'],
@@ -1198,8 +1253,10 @@ function stamp(id){
     logAdd('rec','病院到着'+(S.st.contact?'（傷病者接触から '+dur(now-S.st.contact)+'）':''),{mark:'hosp'});
   }
   else logAdd('rec',(LBL[id]||id)+(MULTI[id]?' 1回目':''));
+  var al=ALIAS[id]||[];al.forEach(function(a){if(!S.st[a]){S.st[a]=now;(S.auto=S.auto||{})[a]=1;}});
   save();renderHeader();renderRec();renderLog();syncLive();
   scnOnStamp(id);
+  al.forEach(function(a){scnOnStamp(a);});
 }
 function stampMulti(id){
   var arr=occ(id).slice(),mx=MULTI[id];
@@ -1217,6 +1274,10 @@ function unstamp(id){
     if(S.mu)S.mu[id]=[];
   }
   delete S.st[id];if(S.auto)delete S.auto[id];
+  (ALIAS[id]||[]).forEach(function(a){
+    var still=Object.keys(ALIAS).some(function(k){return k!==id&&S.st[k]&&ALIAS[k].indexOf(a)>=0;});
+    if(!still&&S.auto&&S.auto[a]){delete S.st[a];delete S.auto[a];}
+  });
   logAdd('rec','【取消】'+(LBL[id]||id));
   save();renderRec();renderLog();syncLive();
 }
@@ -1378,13 +1439,16 @@ function chipHTML(id,label,ms,custom){
     (done?'<button class="x" data-act="'+(custom?'delc':'clear')+'" data-id="'+esc(id)+'" aria-label="'+esc(label)+'の記録を取り消す">×</button>':'')+'</div>';
 }
 function renderRec(){
-  var h='',cs=scnCur();
-  if(cs){var xs=cs.procs.filter(function(p){return !p.chip;});if(xs.length)h+='<div class="ag"><h3>想定の処置・連絡</h3><div class="ac">'+xs.map(function(p){return chipHTML('x_'+p.id,SCN_CL[p.id]||p.label,S.st['x_'+p.id],false);}).join('')+'</div></div>';}
-  GROUPS.forEach(function(g){
-    var its=g.items.filter(function(it){return !BIG[it[0]];});
-    h+='<div class="ag"><h3>'+esc(g.g)+'</h3><div class="ac">'+its.map(function(it){return chipHTML(it[0],it[1],S.st[it[0]],false);}).join('')+'</div></div>';
-  });
-  if(S.cu.length)h+='<div class="ag"><h3>その他</h3><div class="ac">'+S.cu.map(function(x){return chipHTML(x.id,x.label,x.ms,true);}).join('')+'</div></div>';
+  var cs=scnCur(),cells=[],gid={};
+  GROUPS.forEach(function(g){g.items.forEach(function(it){gid[it[0]]=1;});});
+  function blk(g){var its=g.items.filter(function(it){return !BIG[it[0]];});
+    return '<div class="ag"><h3>'+esc(g.g)+'</h3><div class="ac">'+its.map(function(it){return chipHTML(it[0],it[1],S.st[it[0]],false);}).join('')+'</div></div>';}
+  /* 行1：主要時系列｜病院連絡、行2：観察・処置｜特定行為（行を揃えて開始位置を合わせる） */
+  var extra='';
+  if(cs){var xs=cs.procs.filter(function(p){return !p.chip||(!gid[p.chip]&&p.chip!=='fluid'&&p.chip!=='adv');});if(xs.length)extra+='<div class="ag"><h3>想定の処置・連絡</h3><div class="ac">'+xs.map(function(p){var k=chipKey(p);return chipHTML(k,p.chip?p.label:(SCN_CL[p.id]||p.label),S.st[k],false);}).join('')+'</div></div>';}
+  if(S.cu.length)extra+='<div class="ag"><h3>その他</h3><div class="ac">'+S.cu.map(function(x){return chipHTML(x.id,x.label,x.ms,true);}).join('')+'</div></div>';
+  /* 想定の処置・連絡／その他は、病院連絡の下（右列・上段の空き）に配置 */
+  var h='<div class="rcols">'+blk(GROUPS[0])+'<div class="rc2">'+blk(GROUPS[2])+extra+'</div>'+blk(GROUPS[1])+blk(GROUPS[3])+'</div>';
   $('#chips').innerHTML=QUICK.map(function(q){return chipHTML(q[0],q[1],S.st[q[0]],false);}).join('');
   var box=$('#recGroups'),top=box.scrollTop;
   box.innerHTML=h;box.scrollTop=top;
