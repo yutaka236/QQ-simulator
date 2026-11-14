@@ -42,3 +42,7 @@ index.html   アプリ本体（HTML / CSS / JavaScript）
 README.md    このファイル
 .nojekyll    GitHub Pages用（Jekyll処理を無効化）
 ```
+
+## 想定（症例）
+- 症例1 急性胆管炎 ／ 症例2 飲酒・睡眠薬 ／ 症例3 アナフィラキシー ／ 症例4 急性心筋梗塞（下壁STEMI→各種不整脈→VF→心停止）
+- 各想定は、想定付与 約2分＋活動 約13分（想定開始〜想定終了）を目安に調整

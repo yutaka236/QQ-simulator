@@ -598,6 +598,12 @@ section[aria-label="12誘導心電図"]{--pa:var(--pa-rhy);flex:none}
 .rg button.grp>span::after{content:" ▾";font-size:.8em;opacity:.75}
 .rg button.grp small{font-size:.68em;font-weight:500;opacity:.95;white-space:nowrap}
 .rg button.grp small:empty{display:none}
+#subPop{position:fixed;z-index:80;display:flex;flex-direction:column;gap:.3rem;padding:.45rem;background:var(--surface);border:2px solid var(--ok);border-radius:.8rem;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+#subPop .pt{font-size:.8rem;font-weight:700;color:var(--ok);padding:.05rem .2rem}
+#subPop button{min-height:2.9rem;border-radius:.6rem;border:2px solid var(--line);background:var(--surface);color:var(--ink);font-weight:700;font-size:1.1rem;padding:0 .8rem;white-space:nowrap;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+#subPop button[aria-pressed="true"]{background:var(--ok-soft);border-color:var(--ok)}
+#subPop .tt{font-family:var(--f-time);font-size:.85rem;font-weight:400;color:var(--ok)}
+.stamp.subg .tm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;max-width:100%}
 #rhyPop{position:fixed;z-index:80;display:flex;flex-direction:column;gap:.3rem;padding:.45rem;background:var(--surface);border:2px solid var(--pa-rhy);border-radius:.8rem;box-shadow:0 10px 30px rgba(0,0,0,.3)}
 #rhyPop .pt{font-size:.8rem;font-weight:700;color:var(--pa-rhy);padding:.05rem .2rem}
 #rhyPop button{min-height:2.9rem;border-radius:.6rem;border:2px solid color-mix(in srgb,var(--pa-rhy) 40%,var(--line));background:var(--surface);color:var(--ink);font-weight:700;font-size:1.1rem;padding:0 .8rem;white-space:nowrap}
@@ -638,6 +644,16 @@ details.manual summary{cursor:pointer;font-weight:700;color:var(--muted);padding
 .clock .lbl{white-space:nowrap}
 .clock .t{min-width:5.6ch;display:inline-block;text-align:left;white-space:nowrap}
 .clock .sub{width:15.5rem;white-space:nowrap;overflow:hidden;display:inline-block}
+
+/* 時系列の色分け（観察・処置／特定行為 ほか） */
+.g-obs{--gc:#1f8a70}.g-adv{--gc:#d9730d}.g-hosp{--gc:#2f6fba}.g-main{--gc:#7b8794}.g-oth{--gc:#b0508f}
+table tr.g-obs>td,table tr.g-adv>td,table tr.g-hosp>td,table tr.g-main>td,table tr.g-oth>td{background:color-mix(in srgb,var(--gc) 11%,transparent)}
+table tr.g-obs>td:first-child,table tr.g-adv>td:first-child,table tr.g-hosp>td:first-child,table tr.g-main>td:first-child,table tr.g-oth>td:first-child{box-shadow:inset 5px 0 0 var(--gc)}
+.gtag{display:inline-block;margin-right:.55em;padding:.05em .55em;border-radius:99px;font-size:.78em;font-weight:700;line-height:1.5;color:#fff;background:var(--gc);vertical-align:.05em}
+.glg{display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;margin:.2rem 0 .5rem;font-size:.85rem;color:var(--muted)}
+.glg span{display:inline-flex;align-items:center;gap:.4em}
+.glg b{width:.9em;height:.9em;border-radius:3px;background:var(--gc)}
+table tr[class^="g-"]>td,.gtag,.glg b{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 
 /* 一時停止／再開 */
 #btnStart.pz{background:#D08A2E;border-color:#D08A2E;color:#fff}
@@ -940,17 +956,19 @@ var VIS=[['ecg','心電図'],['hr','脈拍'],['spo2','SpO₂'],['bp','血圧'],[
 var OPTS=[['name','リズム名'],['alarms','警報表示'],['sound','心拍音'],['voice','音声ガイド']];
 function visOn(v,k){if(k==='name')return !!v.name;if(k==='alarms')return !!v.alarms;if(k==='sound')return !!v.sound;if(k==='voice')return v.voice!==false;return !!(v.vis||{})[k];}
 var GROUPS=[
- {g:'主要時系列',items:[['dispatch','出場'],['arrive','現場到着'],['contact','傷病者接触'],['move','収容開始'],['load','車内収容'],['depart','現場出発']]},
- {g:'観察・処置',items:[['mon','四肢誘導心電図'],['ecg12','12誘導心電図'],['ecgtx','心電図伝送'],['pads','除細動パッド装着'],['bg','血糖測定'],['o2','酸素投与'],['q_suction','口腔内吸引'],['fbao','気道異物除去'],['bvm','BVM(人工呼吸/補助換気)'],['q_hemo','止血'],['pos','体位管理']]},
+ {g:'時系列',items:[['dispatch','出場'],['arrive','現場到着'],['contact','傷病者接触'],['move','収容開始'],['load','車内収容'],['depart','現場出発']]},
+ {g:'観察・処置',items:[['mon','四肢誘導心電図'],['ecg12','12誘導心電図'],['ecgtx','心電図伝送'],['pads','除細動パッド装着'],['bg','血糖測定'],['q_manual','用手気道確保'],['q_suction','口腔内吸引'],['fbao','気道異物除去'],['o2','酸素投与'],['bvm','BVM(人工呼吸/補助換気)'],['hem_dp','直接圧迫止血'],['hem_tq','ターニケット装着'],['hem_sl','サムスリング固定'],['fx_sp','副子固定'],['fx_nc','ネックカラー装着'],['fx_bb','バックボード固定'],['pos','体位管理']]},
  {g:'病院連絡',items:[['call1','受入要請'],['order','特定行為指示要請'],['detail','詳細報告']]},
  {g:'特定行為',items:[['iv','静脈路確保'],['adr','アドレナリン1mg投与'],['glu','ブドウ糖液投与'],['lt','LT挿入'],['ett','気管挿管'],['epi','エピペン筋注']]}
 ];
+var SUBG=[['sg_ecg','心電図',['mon','ecg12','ecgtx']],['sg_air','気道管理',['q_manual','q_suction','fbao']],['sg_hem','止血',['hem_dp','hem_tq','hem_sl']],['sg_fix','固定',['fx_sp','fx_nc','fx_bb']]];
+var SUBIN={};SUBG.forEach(function(g){g[2].forEach(function(c){SUBIN[c]=g[0];});});
 var LBL={};GROUPS.forEach(function(g){g.items.forEach(function(it){LBL[it[0]]=it[1];});});
 LBL.fluid='輸液開始';LBL.adv='気道確保（LT/挿管）';LBL.cpa='CPA確認';LBL.shock1='除細動（初回）';LBL.rosc='心拍再開';LBL.hosp='病院到着';LBL.initial='初期評価完了';LBL.dest='搬送先決定';
 var ALIAS={iv:['fluid'],lt:['adv'],ett:['adv']};   // 静脈路確保＝輸液開始、LT挿入／気管挿管＝気道確保として想定票に反映
-var MULTI={iv:2,adr:10,glu:2,ett:2,x_airway:3,x_glu:10,x_ad:10};   // 複数回記録できる項目と上限回数
+var MULTI={iv:2,adr:10,glu:2,ett:2,order:2,x_airway:3};   // 複数回記録できる項目と上限回数
 function occ(id){var a=(S.mu&&S.mu[id])||[];if(!a.length&&S.st[id])a=[S.st[id]];return a;}
-var QUICK=[['q_assist','応援要請'],['q_lg','ロード&ゴー'],['q_family','家族への説明'],['q_info','追加情報の付与']];
+var QUICK=[['q_assist','応援要請'],['q_lg','ロード&ゴー'],['q_family','家族への説明'],['q_info','自動心マ器設定']];
 QUICK.forEach(function(q){LBL[q[0]]=q[1];});LBL.q_suction='口腔内吸引';LBL.q_hemo='止血';
 var PTS0=[
  ['状況評価・感染防御','安全確認、感染防御、応援要請の判断ができたか'],
@@ -1166,9 +1184,11 @@ function alignCols(){
       d=document.querySelector('section.p-dz,section[aria-label="解析・除細動"]');
   if(!v||!c||!d||!v.offsetParent)return;
   ALIGN.busy=true;
-  c.style.marginBottom='0px';
-  var diff=d.getBoundingClientRect().top-v.getBoundingClientRect().top;
-  c.style.marginBottom=(Math.abs(diff)<0.3?0:-diff)+'px';
+  var k=document.getElementById('bCpr');
+  c.style.marginBottom='';
+  if(k){k.style.height='';k.style.minHeight='';
+    var diff=d.getBoundingClientRect().top-v.getBoundingClientRect().top;
+    if(Math.abs(diff)>=0.3){var h=k.getBoundingClientRect().height-diff;k.style.minHeight='0';k.style.height=h+'px';}}
   ALIGN.busy=false;
 }
 (function(){
@@ -1561,7 +1581,7 @@ function syncLive(){
 function chipMulti(id,label){
   var arr=occ(id),mx=MULTI[id],done=arr.length>0,full=arr.length>=mx;
   var tm=arr.map(function(t,i){return '<span class="tl1">'+(i+1)+'回目 '+clk(t)+(S.t0?'  +'+dur(t-S.t0):'')+'</span>';}).join('');
-  var hint=full?'上限（'+mx+'回）に達しました':done?'クリックで'+(arr.length+1)+'回目を記録':mx<=3?'最大'+mx+'回まで記録':'複数回記録';
+  var hint=full?'上限（'+mx+'回）に達しました':done?'クリックで'+(arr.length+1)+'回目を記録':id==='order'?'':mx<=3?'最大'+mx+'回まで記録':'複数回記録';
   return '<div class="ci'+(done?' done':'')+(full?' full':'')+'"><button class="stamp" data-act="stamp" data-id="'+esc(id)+'" aria-pressed="'+done+'"><span class="lb">'+esc(label)+'</span><span class="tm">'+tm+'<span class="hn">'+hint+'</span></span></button>'+
     (done?'<button class="x" data-act="clear" data-id="'+esc(id)+'" aria-label="'+esc(label)+'の最新の記録を取り消す">×</button>':'')+'</div>';
 }
@@ -1575,7 +1595,12 @@ function chipHTML(id,label,ms,custom){
 function renderRec(){
   var cs=scnCur(),cells=[],gid={};
   GROUPS.forEach(function(g){g.items.forEach(function(it){gid[it[0]]=1;});});
+  function subBtn(g){var done=g[2].filter(function(c){return S.st[c];});
+    var nm=done.map(function(c){return LBL[c];}).join('・');
+    return '<div class="ci'+(done.length?' done':'')+'"><button class="stamp subg" data-act="subg" data-id="'+g[0]+'" aria-haspopup="menu"><span class="lb">'+esc(g[1])+' ▾</span><span class="tm">'+(done.length?esc(nm):'')+'</span></button></div>';}
   function blk(g){var its=g.items.filter(function(it){return !BIG[it[0]];});
+    if(g.g==='観察・処置'){var seen={},o=[];its.forEach(function(it){var sg=SUBIN[it[0]];if(sg){if(!seen[sg]){seen[sg]=1;o.push(subBtn(SUBG.filter(function(x){return x[0]===sg;})[0]));}}else o.push(chipHTML(it[0],it[1],S.st[it[0]],false));});
+      return '<div class="ag"><h3>'+esc(g.g)+'</h3><div class="ac">'+o.join('')+'</div></div>';}
     return '<div class="ag"><h3>'+esc(g.g)+'</h3><div class="ac">'+its.map(function(it){return chipHTML(it[0],it[1],S.st[it[0]],false);}).join('')+'</div></div>';}
   /* 行1：主要時系列｜病院連絡、行2：観察・処置｜特定行為（行を揃えて開始位置を合わせる） */
   var extra='';
@@ -1595,14 +1620,28 @@ function renderLog(){
 }
 
 /* ===== 分析・評価 ===== */
+var GCLS={'時系列':'g-main','観察・処置':'g-obs','病院連絡':'g-hosp','特定行為':'g-adv','その他':'g-oth'};
+function grpOf(id){
+  var r='';GROUPS.forEach(function(g){g.items.forEach(function(it){if(it[0]===id)r=g.g;});});
+  if(r)return r;
+  if(id==='fluid'||id==='adv')return '特定行為';
+  if(id==='shock1'||id==='cpa'||id==='rosc'||id==='hosp')return '時系列';
+  if(id.indexOf('q_')===0||id.indexOf('x_')===0)return 'その他';
+  return '';
+}
+function rowTr(r,t0,iv){
+  var g=r.g,c=g?GCLS[g]:'';
+  return '<tr'+(c?' class="'+c+'"':'')+'><td class="m">'+clk(r.ms)+'</td><td class="m">+'+dur(r.ms-t0)+'</td><td class="m">'+iv+'</td><td>'+(g?'<span class="gtag">'+esc(g)+'</span>':'')+esc(r.text)+'</td></tr>';
+}
+function gLegend(){return '<div class="glg"><span class="g-obs"><b></b>観察・処置</span><span class="g-adv"><b></b>特定行為</span><span class="g-hosp"><b></b>病院連絡</span><span class="g-main"><b></b>時系列</span><span class="g-oth"><b></b>その他</span></div>';}
 function allRows(opts){
   var rows=[],seen={};
   Object.keys(S.st).forEach(function(id){
     if(S.auto&&S.auto[id])return;
-    if(MULTI[id]){occ(id).forEach(function(t,i){rows.push({ms:t,text:(LBL[id]||id)+'（'+(i+1)+'回目）',cat:'rec'});});return;}
-    rows.push({ms:S.st[id],text:LBL[id]||id,cat:'rec'});
+    if(MULTI[id]){occ(id).forEach(function(t,i){rows.push({ms:t,text:(LBL[id]||id)+'（'+(i+1)+'回目）',cat:'rec',g:grpOf(id)});});return;}
+    rows.push({ms:S.st[id],text:LBL[id]||id,cat:'rec',g:grpOf(id)});
   });
-  S.cu.forEach(function(x){rows.push({ms:x.ms,text:x.label,cat:'rec'});});
+  S.cu.forEach(function(x){rows.push({ms:x.ms,text:x.label,cat:'rec',g:'その他'});});
   S.log.forEach(function(e){
     if(e.cat==='rec'||e.mark==='cpa'||e.mark==='rosc')return;   // 記録項目は上で追加済み
     if(!opts.ops&&(e.cat==='sim'||e.cat==='mon'))return;
@@ -1700,9 +1739,9 @@ function renderEvalDyn(){
   scnEvalRender();
   renderChart(c);
   var rows=allRows({ops:$('#evOps').checked}),prev=null;
-  $('#evTable').innerHTML=rows.length?'<table><thead><tr><th>時刻</th><th>経過</th><th>間隔</th><th>内容</th></tr></thead><tbody>'+rows.map(function(r){
+  $('#evTable').innerHTML=rows.length?gLegend()+'<table><thead><tr><th>時刻</th><th>経過</th><th>間隔</th><th>内容</th></tr></thead><tbody>'+rows.map(function(r){
     var t0=S.t0||r.ms,iv=prev!==null?'+'+dur(r.ms-prev):'';prev=r.ms;
-    return '<tr><td class="m">'+clk(r.ms)+'</td><td class="m">+'+dur(r.ms-t0)+'</td><td class="m">'+iv+'</td><td>'+esc(r.text)+'</td></tr>';
+    return rowTr(r,t0,iv);
   }).join('')+'</tbody></table>':'<p class="empty">記録された項目はありません。</p>';
   renderReport(c);
 }
@@ -1773,6 +1812,18 @@ function toggleE12Pop(btn){
   var h=p.offsetHeight;p.style.top=(r.bottom+6+h>innerHeight?Math.max(8,r.top-6-h):r.bottom+6)+'px';
 }
 /* 房室ブロック・期外収縮：クリックして種類を選ぶ */
+function closeSubPop(){var p=$('#subPop');if(p)p.remove();}
+function fillSubPop(p){var g=SUBG.filter(function(x){return x[0]===p.getAttribute('data-g');})[0];
+  p.innerHTML='<div class="pt">'+esc(g[1])+'を選択（再押下で取消）</div>'+g[2].map(function(c){var t=S.st[c];return '<button data-act="subc" data-id="'+c+'" aria-pressed="'+(!!t)+'">'+esc(LBL[c])+(t?'<span class="tt">'+clk(t)+'</span>':'')+'</button>';}).join('');}
+function toggleSubPop(btn){
+  var old=$('#subPop'),g=btn.getAttribute('data-id');
+  if(old){var same=old.getAttribute('data-g')===g;old.remove();if(same)return;}
+  var p=document.createElement('div');p.id='subPop';p.setAttribute('data-g',g);p.setAttribute('role','menu');fillSubPop(p);
+  document.body.appendChild(p);
+  var r=btn.getBoundingClientRect(),w=Math.max(r.width,260);
+  p.style.width=w+'px';p.style.left=Math.max(8,Math.min(r.left,innerWidth-w-8))+'px';
+  var h=p.offsetHeight;p.style.top=(r.bottom+6+h>innerHeight?Math.max(8,r.top-6-h):r.bottom+6)+'px';
+}
 function closeRhyPop(){var p=$('#rhyPop');if(p)p.remove();}
 function toggleRhyPop(btn){
   var old=$('#rhyPop'),g=btn.getAttribute('data-g');
@@ -1784,13 +1835,13 @@ function toggleRhyPop(btn){
   p.style.width=w+'px';p.style.left=Math.max(8,Math.min(r.left,innerWidth-w-8))+'px';
   var h=p.offsetHeight;p.style.top=(r.bottom+6+h>innerHeight?Math.max(8,r.top-6-h):r.bottom+6)+'px';
 }
-document.addEventListener('click',function(e){if(!e.target.closest('#rhyPop,[data-act="rgrp"],[data-act="e12grp"]'))closeRhyPop();});
-document.addEventListener('keydown',function(e){if(e.key==='Escape')closeRhyPop();});
+document.addEventListener('click',function(e){if(!e.target.closest('#rhyPop,[data-act="rgrp"],[data-act="e12grp"]'))closeRhyPop();if(!e.target.closest('#subPop,[data-act="subg"]'))closeSubPop();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeRhyPop();closeSubPop();}});
 var resetArmed=null;
 document.addEventListener('click',function(e){
   var b=e.target.closest('[data-act]');if(!b)return;
   var a=b.getAttribute('data-act'),id=b.getAttribute('data-id');
-  if(S.pzReal&&(a==='stamp'||a==='clear'||a==='cpr'||a==='chip'||a==='delc')){var rh0=$('#rhint');if(rh0)rh0.textContent='一時停止中です。「再開」を押してから記録してください。';return;}
+  if(S.pzReal&&(a==='stamp'||a==='clear'||a==='cpr'||a==='chip'||a==='delc'||a==='subc')){var rh0=$('#rhint');if(rh0)rh0.textContent='一時停止中です。「再開」を押してから記録してください。';return;}
   if(a==='tab')showTab(id);
   else if(a.indexOf('scn')===0||a.indexOf('print')===0)scnClick(a,b);
   else if(a==='mopen')openMon();
@@ -1817,6 +1868,8 @@ document.addEventListener('click',function(e){
   else if(a==='start'){if(!S.t0)startActivity(false);else if(S.pzReal)resumeAct();else pauseAct();}
   else if(a==='stamp'){if(MULTI[id])stampMulti(id);else if(!S.st[id])stamp(id);}
   else if(a==='clear')unstamp(id);
+  else if(a==='subg')toggleSubPop(b);
+  else if(a==='subc'){if(S.st[id])unstamp(id);else stamp(id);var sp=$('#subPop');if(sp)fillSubPop(sp);}
   else if(a==='delc'){S.cu=S.cu.filter(function(x){return x.id!==id;});save();renderRec();}
   else if(a==='chip')addCustom(b.getAttribute('data-label'));
   else if(a==='end'){
@@ -1864,10 +1917,11 @@ function renderAll(){renderHeader();renderRec();renderLog();syncSim();scnRefresh
 
 /* ===== 想定データ（3想定） ===== */
 /* fx：数値＝その値にする／'+10' '-5'＝現在値からの増減。steps：処置後 d秒で適用。stages：時間経過・条件による変化 */
-var SCN_ORDER=['bil','alc','ana'];
+var SCN_ORDER=['bil','alc','ana','cp'];
 var SCN={};
 
 SCN.bil={
+  time:'想定付与 約2分／活動 約13分（想定開始〜想定終了）',
   name:'急性胆管炎によるショック',
   sub:'78歳 男性／発熱・黄疸・意識もうろう',
   dispatch:'「78歳の夫。3日前から腹痛があり、今日になって熱と体のだるさが強く、呼びかけへの反応が鈍い」と妻から救急要請。',
@@ -1886,16 +1940,16 @@ SCN.bil={
     {id:'ecg12',chip:'ecg12',label:'12誘導心電図記録',steps:[{d:0,msg:'洞性頻脈、ST変化なし（急性心筋梗塞は否定的）。'}]},
     {id:'bg',chip:'bg',label:'血糖測定',steps:[{d:0,msg:'血糖 118 mg/dL（低血糖は否定）。'}]},
     {id:'iv',chip:'iv',label:'静脈路確保（医師の具体的指示後・穿刺は原則2回まで）',req:['dr'],steps:[{d:0,msg:'末梢静脈路を確保。ショックのため急速輸液の準備。'}]},
-    {id:'dr',chip:null,label:'医師へ連絡（特定行為の指示要請）',steps:[{d:0,msg:'医師より「敗血症性ショックの疑い。輸液を開始して搬送」との指示。'}]},
+    {id:'dr',chip:'order',label:'医師へ特定行為の指示要請',steps:[{d:0,msg:'医師より「敗血症性ショックの疑い。輸液を開始して搬送」との指示。'}]},
     {id:'fluid',chip:'fluid',label:'輸液開始（乳酸リンゲル液・急速）',req:['iv'],steps:[
       {d:30,fx:{sys:'+8',dia:'+4',hr:'-6'},ramp:20,msg:'血圧が上昇し始めた。橈骨動脈の触れが良くなった。'},
       {d:120,fx:{sys:'+8',dia:'+4',hr:'-6',spo2:'+1'},ramp:30,msg:'会話のつじつまが合ってきた（JCS 10→1〜2）。皮膚の湿潤は続く。'}]},
     {id:'call1',chip:'call1',label:'1stコール（搬送先へ連絡）',steps:[{d:0,msg:'搬送先：消化器内科が対応可能で、緊急ドレナージ（ERCP/PTCD）ができる施設。'}]}
   ],
   stages:[
-    {key:'h1',at:300,not:['o2'],fx:{spo2:'-3'},ramp:20,msg:'SpO₂が90%に低下。呼吸32回/分。'},
-    {key:'d1',at:240,not:['fluid'],fx:{sys:'-10',dia:'-6',hr:'+10',spo2:'-1',etco2:'-2'},ramp:30,msg:'意識がJCS 30に低下。四肢が冷たく湿潤（cold shockへ移行）。'},
-    {key:'d2',at:480,not:['fluid'],fx:{sys:'-10',dia:'-6',hr:'+12',spo2:'-2',temp:'-0.3'},ramp:30,msg:'JCS 100。橈骨動脈の触れが微弱。血圧がさらに低下。'}
+    {key:'h1',at:390,not:['o2'],fx:{spo2:'-3'},ramp:20,msg:'SpO₂が90%に低下。呼吸32回/分。'},
+    {key:'d1',at:310,not:['fluid'],fx:{sys:'-10',dia:'-6',hr:'+10',spo2:'-1',etco2:'-2'},ramp:30,msg:'意識がJCS 30に低下。四肢が冷たく湿潤（cold shockへ移行）。'},
+    {key:'d2',at:620,not:['fluid'],fx:{sys:'-10',dia:'-6',hr:'+12',spo2:'-2',temp:'-0.3'},ramp:30,msg:'JCS 100。橈骨動脈の触れが微弱。血圧がさらに低下。'}
   ],
   path:{
     cause:'総胆管結石などで胆管が詰まる（閉塞）と、胆汁がうっ滞して胆管内の圧力が上がります。そこへ腸内細菌（大腸菌、クレブシエラなど）が胆汁中で増えて感染（急性胆管炎）を起こします。胆管内圧が高いと、細菌や毒素が胆汁から肝臓の毛細血管（類洞）を通って血液中へ逆流し、菌血症・敗血症、さらに敗血症性ショックに進みます。',
@@ -1906,6 +1960,7 @@ SCN.bil={
 };
 
 SCN.alc={
+  time:'想定付与 約2分／活動 約13分（想定開始〜想定終了）',
   name:'アルコール・睡眠薬服用による意識障害と低血糖',
   sub:'42歳 男性／自宅で倒れているところを友人が発見',
   dispatch:'「42歳男性。電話に出ないので訪ねたところ、玄関付近で倒れており、呼びかけても反応が鈍い。酒の臭いがする」と友人から救急要請。',
@@ -1918,25 +1973,25 @@ SCN.alc={
   points:['気道・呼吸の評価と管理を最優先（舌根沈下、呼吸数8回/分）','「酒臭い＝酔い」と決めつけず、意識障害の原因検索として必ず血糖を測定する','低血糖ではブドウ糖投与が必要。静脈路確保と医師の具体的指示（指示要請）の手順を踏む','過量服薬と自傷の可能性：残薬・PTPシートの確認、服用量・時刻の聴取、搬送先への情報伝達','嘔吐・誤嚥の予防（回復体位、吸引）と低体温への対応（保温）','血糖測定はJCS10以上の意識障害が目安（特定行為ではないが、実施と結果は医師に報告する）。血糖50mg/dL未満・15歳以上であれば、オンラインで医師の具体的指示を得て静脈路確保→50%ブドウ糖液40mLを静注する','静脈路確保に時間を費やさず、困難なら搬送を優先する（穿刺は原則2回まで）。投与後は搬送を開始し、医師の指示に応じて血糖を再測定する（沖縄県MCプロトコール）'],
   pts:[['気道・呼吸の管理','舌根沈下・低換気を認識し、気道確保・酸素投与・必要時の補助換気を行えたか'],['原因検索（血糖測定）','飲酒・服薬と決めつけず、血糖測定と外傷・脳卒中の鑑別を行えたか'],['ブドウ糖投与の手順','静脈路確保、医師への指示要請、投与の順序を適切に行えたか'],['服薬情報の収集と搬送先選定','薬剤・量・時刻・自傷の可能性を聴取し、適切な施設を選定できたか']],
   procs:[
-    {id:'airway',chip:null,label:'気道確保（用手＋経鼻エアウェイ）',steps:[{d:10,fx:{spo2:'+3',etco2:'-6'},ramp:10,msg:'いびき様呼吸が消失。SpO₂ 93%、呼吸は浅いまま（8回/分）。'}]},
-    {id:'suction',chip:null,label:'口腔内吸引（嘔吐物）',steps:[{d:5,fx:{spo2:'+1'},ramp:10,msg:'少量の嘔吐物を吸引。気道が確保しやすくなった。'}]},
+    {id:'airway',chip:'q_manual',label:'気道確保（用手＋経鼻エアウェイ）',steps:[{d:10,fx:{spo2:'+3',etco2:'-6'},ramp:10,msg:'いびき様呼吸が消失。SpO₂ 93%、呼吸は浅いまま（8回/分）。'}]},
+    {id:'suction',chip:'q_suction',label:'口腔内吸引（嘔吐物）',steps:[{d:5,fx:{spo2:'+1'},ramp:10,msg:'少量の嘔吐物を吸引。気道が確保しやすくなった。'}]},
     {id:'pos',chip:'pos',label:'回復体位（左側臥位）',steps:[{d:10,fx:{spo2:'+1'},ramp:10,msg:'嘔吐・誤嚥のリスクを下げる体位。いびきが軽減。'}]},
     {id:'o2',chip:'o2',label:'酸素投与（リザーバー付マスク 10L/分）',steps:[{d:15,fx:{spo2:'+4'},ramp:15,msg:'SpO₂ 98%に上昇。'}]},
     {id:'bvm',chip:'bvm',label:'BVM(人工呼吸/補助換気)',steps:[{d:5,fx:{spo2:'+2',etco2:'-8'},ramp:10,msg:'換気量が増え、EtCO₂が低下。'}]},
     {id:'mon',chip:'mon',label:'モニター心電図装着',steps:[{d:0,msg:'洞調律・徐脈傾向。致死的不整脈なし。'}]},
     {id:'bg',chip:'bg',label:'血糖測定',steps:[{d:0,msg:'血糖 36 mg/dL（著明な低血糖）。意識障害の原因の一つ。'}]},
     {id:'iv',chip:'iv',label:'静脈路確保（医師の指示後・穿刺は原則2回まで）',req:['dr'],steps:[{d:0,msg:'末梢静脈路を確保。'}]},
-    {id:'dr',chip:null,label:'医師へ連絡（血糖測定結果の報告・指示要請）',req:['bg'],steps:[{d:0,msg:'医師より「低血糖の疑い。50%ブドウ糖液40mLの静脈内投与」との具体的指示。'}]},
-    {id:'glu',chip:null,label:'50%ブドウ糖液 40mL 静脈内投与',req:['iv','bg','dr'],steps:[
+    {id:'dr',chip:'order',label:'医師へ特定行為の指示要請（血糖測定結果の報告）',req:['bg'],steps:[{d:0,msg:'医師より「低血糖の疑い。50%ブドウ糖液40mLの静脈内投与」との具体的指示。'}]},
+    {id:'glu',chip:'glu',label:'ブドウ糖液投与（50%ブドウ糖液 40mL 静脈内）',req:['iv','bg','dr'],steps:[
       {d:30,fx:{hr:'+8',sys:'+8'},ramp:20,msg:'発汗が減り、開眼して呼びかけに反応（JCS 10）。'},
       {d:120,fx:{hr:'+4',sys:'+6',spo2:'+1'},ramp:30,msg:'会話可能（JCS 1）。「ここはどこ？」と話す。再測定の血糖は 110 mg/dL。'}]},
     {id:'call1',chip:'call1',label:'1stコール（搬送先へ連絡）',steps:[{d:0,msg:'搬送先：過量服薬（中毒）に対応でき、精神科の連携もできる救急施設。'}]}
   ],
   stages:[
-    {key:'a1',at:180,not:['airway'],fx:{spo2:'-5',etco2:'+6',hr:'-4'},ramp:20,msg:'いびき様呼吸が増強。呼吸6回/分、SpO₂が低下（舌根沈下による気道狭窄）。'},
-    {key:'v1',at:240,not:['pos'],fx:{spo2:'-6',hr:'+10'},ramp:15,msg:'嘔吐あり。吐物を誤嚥して咳込み、SpO₂が低下。'},
-    {key:'g1',at:420,not:['glu'],fx:{hr:'-6',sys:'-8',temp:'-0.3'},ramp:30,msg:'意識がJCS 100に低下。冷汗が続く（血糖はさらに低下している可能性）。'},
-    {key:'g2',at:660,not:['glu'],fx:{sys:'-8',hr:'-6',spo2:'-3'},ramp:30,msg:'全身けいれん（低血糖性）が出現。その後JCS 300。'}
+    {key:'a1',at:200,not:['airway'],fx:{spo2:'-5',etco2:'+6',hr:'-4'},ramp:20,msg:'いびき様呼吸が増強。呼吸6回/分、SpO₂が低下（舌根沈下による気道狭窄）。'},
+    {key:'v1',at:270,not:['pos'],fx:{spo2:'-6',hr:'+10'},ramp:15,msg:'嘔吐あり。吐物を誤嚥して咳込み、SpO₂が低下。'},
+    {key:'g1',at:470,not:['glu'],fx:{hr:'-6',sys:'-8',temp:'-0.3'},ramp:30,msg:'意識がJCS 100に低下。冷汗が続く（血糖はさらに低下している可能性）。'},
+    {key:'g2',at:700,not:['glu'],fx:{sys:'-8',hr:'-6',spo2:'-3'},ramp:30,msg:'全身けいれん（低血糖性）が出現。その後JCS 300。'}
   ],
   path:{
     cause:'意識障害は「睡眠薬とアルコールによる中枢神経の抑制」と「アルコールに関連した低血糖」の二つが重なって起こっています。睡眠薬（ベンゾジアゼピン系・非ベンゾジアゼピン系）とアルコールは、どちらも脳のGABA-A受容体の働きを強めて神経活動を抑えるため、併用すると互いに効果を増強し、意識低下と呼吸抑制が強く出ます。さらに空腹での大量飲酒では、肝臓でアルコールが代謝される過程でNADHが増え、糖新生（ブドウ糖を新しく作る働き）が抑えられます。絶食で肝臓のグリコーゲンも枯渇しているため、低血糖になります。',
@@ -1947,6 +2002,7 @@ SCN.alc={
 };
 
 SCN.ana={
+  time:'想定付与 約2分／活動 約13分（想定開始〜想定終了）',
   name:'10歳男児 アナフィラキシーショック（心停止へ移行）',
   sub:'10歳 男児（体重約32kg）／ピーナッツ摂取後',
   dispatch:'「10歳の息子。親戚宅でお菓子を食べた後、全身にじんましんが出て、息が苦しそうでぐったりしている」と母親から救急要請。',
@@ -1962,24 +2018,24 @@ SCN.ana={
     {id:'mon',chip:'mon',label:'モニター心電図装着',steps:[{d:0,msg:'洞性頻脈。致死的不整脈なし。'}]},
     {id:'o2',chip:'o2',label:'高濃度酸素投与（リザーバー付マスク 10L/分）',steps:[{d:15,fx:{spo2:'+4'},ramp:15,msg:'SpO₂ 90%。喘鳴は続く。'}]},
     {id:'pos',chip:'pos',label:'体位管理（仰臥位・下肢挙上／呼吸苦が強ければ半坐位）',steps:[{d:20,fx:{sys:'+3'},ramp:15,msg:'顔面蒼白は変わらず。急に起こすと急変するため体位変更は慎重に。'}]},
-    {id:'epi',chip:null,label:'エピペン0.3mg 大腿外側へ筋注（処方された自己注射薬）',steps:[
+    {id:'epi',chip:'epi',label:'エピペン筋注（0.3mg 大腿外側・処方された自己注射薬）',steps:[
       {d:0,msg:'薬液は無色透明で使用期限内。大腿外側に垂直に押し当て、カチッと音がしてから約3秒保持して注射した（投与日時を記録）。'},
       {d:30,fx:{hr:'+8',sys:'+6',spo2:'+2'},ramp:20,msg:'動悸・手の震えあり。血圧は軽度上昇したが、喘鳴・蕁麻疹・顔面腫脹は改善しない。'},
-      {d:150,fx:{hr:'-30',sys:'-18',dia:'-10',spo2:'-8'},ramp:40,msg:'再び悪化。意識がJCS 30に低下し、呼吸が弱くなってきた。顔色は不良。'}]},
-    {id:'dr',chip:null,label:'医師へオンライン報告（アナフィラキシー・エピペン使用）',steps:[{d:0,msg:'医師より「アナフィラキシーの所見あり、エピペン使用は適切。高濃度酸素と観察を続け、搬送を急ぐように」との助言。'}]},
+      {d:100,fx:{hr:'-30',sys:'-18',dia:'-10',spo2:'-8'},ramp:40,msg:'再び悪化。意識がJCS 30に低下し、呼吸が弱くなってきた。顔色は不良。'}]},
+    {id:'dr',chip:'detail',label:'詳細報告（医師へオンライン報告：アナフィラキシー・エピペン使用）',steps:[{d:0,msg:'医師より「アナフィラキシーの所見あり、エピペン使用は適切。高濃度酸素と観察を続け、搬送を急ぐように」との助言。'}]},
     {id:'fluid',chip:'fluid',label:'輸液（15歳未満は心停止前の対象外）',na:true,steps:[{d:0,msg:'15歳未満のため、心停止前の静脈路確保・輸液は対象外です（沖縄県MCプロトコールは15歳以上）。搬送を優先してください。'}]},
     {id:'bvm',chip:'bvm',label:'BVM(人工呼吸/補助換気)',steps:[{d:5,fx:{spo2:'+3'},ramp:10,msg:'喉頭浮腫と気管支攣縮のため換気に抵抗がある。SpO₂はわずかに改善。'}]},
     {id:'call1',chip:'call1',label:'1stコール（搬送先へ連絡）',steps:[{d:0,msg:'搬送先：小児の救急・集中治療に対応できる施設。'}]},
     {id:'aed',chip:'pads',label:'除細動パッド装着（CPA後・リズムチェック）',after:'cpa',steps:[{d:0,msg:'解析：除細動の適応なし（PEA）。直ちに胸骨圧迫を継続。小学生用以上のパッドを使用。'}]},
-    {id:'dr2',chip:null,label:'医師へ具体的指示要請（静脈路確保・アドレナリン）',after:'cpa',steps:[{d:0,msg:'医師より「心停止（PEA）。静脈路確保とアドレナリン1mgの投与を指示。搬送を急ぐ」との具体的指示。'}]},
+    {id:'dr2',chip:'order',label:'医師へ特定行為の指示要請（静脈路確保・アドレナリン）',after:'cpa',steps:[{d:0,msg:'医師より「心停止（PEA）。静脈路確保とアドレナリン1mgの投与を指示。搬送を急ぐ」との具体的指示。'}]},
     {id:'iv',chip:'iv',label:'静脈路確保（CPA後・原則1回）',after:'cpa',req:['dr2'],preNa:true,hint:'15歳未満は心停止前の静脈路確保・輸液の対象外です。心停止に移行し、医師の具体的指示を得てから静脈路を確保します。',steps:[{d:0,msg:'末梢静脈路を確保できた（穿刺は1回）。'}]},
-    {id:'ad',chip:null,label:'アドレナリン 1mg 静脈内投与（リズムチェック後）',after:'cpa',req:['dr2','aed','iv'],steps:[{d:30,fx:{etco2:'+8'},ramp:15,msg:'アドレナリン1mgを静注し、乳酸リンゲル液約20mLで後押し、肢を挙上した。EtCO₂が上昇（約20mmHg）。モニターは徐脈性のPEAのまま。再投与は約4分後（その都度、医師の指示が必要）。'}]},
+    {id:'ad',chip:'adr',label:'アドレナリン1mg投与（リズムチェック後）',after:'cpa',req:['dr2','aed','iv'],steps:[{d:30,fx:{etco2:'+8'},ramp:15,msg:'アドレナリン1mgを静注し、乳酸リンゲル液約20mLで後押し、肢を挙上した。EtCO₂が上昇（約20mmHg）。モニターは徐脈性のPEAのまま。再投与は約4分後（その都度、医師の指示が必要）。'}]},
     {id:'adv',chip:'adv',label:'気道確保（LT/挿管）：小児は原則対象外',na:true,steps:[{d:0,msg:'乳児・小児の気道管理は原則として用手のBVMで行います（器具を用いた気道確保は行わない）。BVMでの換気を継続してください。'}]},
     {id:'rosc',chip:null,label:'指導者：心拍再開を付与',after:'cpa',inst:true,req:['ad'],steps:[{d:0,fx:{hr:128,spo2:90,sys:78,dia:42,etco2:38},ramp:10,pea:false,rhythm:'nsr',rosc:true,msg:'心拍が再開した。頸動脈で脈を触知。「心拍再開」ボタンで時刻を記録してください。'}]}
   ],
   stages:[
-    {key:'w1',at:300,not:['epi'],fx:{spo2:'-4',sys:'-8',hr:'+6'},ramp:20,msg:'喘鳴が増強し、嗄声が強くなった。意識がJCS 20に低下。'},
-    {key:'cpa',min:300,at:540,after:{id:'epi',delay:210},fx:{hr:40,spo2:60,sys:40,dia:20,etco2:12},ramp:5,rhythm:'nsr',pea:true,msg:'呼びかけに反応なく呼吸が停止。頸動脈は触知不能。モニターには徐脈の波形が残るが脈がない（PEA）。直ちに胸骨圧迫を開始（小児は2人以上で15:2）。'}
+    {key:'w1',at:240,not:['epi'],fx:{spo2:'-4',sys:'-8',hr:'+6'},ramp:20,msg:'喘鳴が増強し、嗄声が強くなった。意識がJCS 20に低下。'},
+    {key:'cpa',min:240,at:400,after:{id:'epi',delay:150},fx:{hr:40,spo2:60,sys:40,dia:20,etco2:12},ramp:5,rhythm:'nsr',pea:true,msg:'呼びかけに反応なく呼吸が停止。頸動脈は触知不能。モニターには徐脈の波形が残るが脈がない（PEA）。直ちに胸骨圧迫を開始（小児は2人以上で15:2）。'}
   ],
   path:{
     cause:'ピーナッツに対して、以前の摂取で作られたIgE抗体が肥満細胞・好塩基球の表面に結合している（感作）状態です。再び摂取して抗原が入ると、細胞表面のIgEに架橋して、ヒスタミン、ロイコトリエン、トリプターゼなどの物質が一度に放出（脱顆粒）されます。これが全身の血管拡張と血管透過性の亢進、気管支の収縮、喉頭・気道粘膜の浮腫、消化管の症状を同時に起こします（アナフィラキシー）。',
@@ -1991,21 +2047,84 @@ SCN.ana={
 };
 
 
+
+SCN.cp={
+  time:'想定付与 約2分／活動 約13分（想定開始〜想定終了）',
+  name:'急性下壁心筋梗塞による胸痛から心室細動・心停止へ',
+  sub:'62歳 男性／胸痛・冷汗・嘔気（12誘導でST上昇）',
+  dispatch:'「62歳の夫。30分ほど前から胸が締めつけられるように痛く、冷や汗と吐き気がある。意識はあるが顔色がとても悪い」と妻から救急要請。',
+  scene:'自宅リビングの椅子に座り、前かがみで胸を押さえている。顔面蒼白、冷汗が著明。室温は適温。妻が付き添い。ニトログリセリンなどの処方薬はない。',
+  hx:'既往：高血圧・脂質異常症（内服中）。喫煙 約20本/日×30年。糖尿病なし。30分前、安静時に突然、前胸部の絞扼痛（左肩〜下顎へ放散）と冷汗・嘔気が出現。痛みは徐々に増強。市販薬の服用なし。',
+  initial:['意識：JCS 1（苦悶様だが受け答えは可能）','気道：開通、発語あり','呼吸：やや速い（22回/分）、努力様呼吸なし','循環：橈骨動脈は触れるがやや遅い、冷汗・顔面蒼白、CRT 2秒'],
+  find:['胸部：呼吸音清、左右差なし、頸静脈怒張なし','前胸部痛（NRS 8/10）、左肩〜下顎へ放散。体位・呼吸で変化しない','冷汗・嘔気あり、嘔吐なし','瞳孔3mm同大・対光反射あり、麻痺なし','血糖（測定時）：126 mg/dL','12誘導（記録時）：II・III・aVFでST上昇、I・aVLで対側性ST低下（急性下壁心筋梗塞）'],
+  init:{rhythm:'nsr',hr:56,spo2:94,sys:104,dia:62,temp:36.4,etco2:36,st:1},
+  extra:'JCS 1／呼吸数 22回/分／SpO₂ 94%（room air）／胸痛 NRS 8',
+  points:[
+    '突然の前胸部痛・冷汗・嘔気から急性冠症候群を疑い、早期に12誘導心電図を記録して、ST上昇を認識する',
+    '下壁梗塞では房室ブロック・徐脈・低血圧、右室梗塞の合併に注意する（硝酸薬は使用しない）',
+    '12誘導を搬送先へ伝送し、PCI可能な施設を早期に選定して受入要請する',
+    '急変（不整脈の悪化）を予測し、除細動パッドを早めに装着して、モニターを継続的に確認する',
+    '心電図変化（房室ブロック→期外収縮→ショートラン→心室頻拍）に気づき、VFへの移行に備える',
+    'VF（心停止）では、胸骨圧迫を中断せず、解析・除細動を速やかに行い、医師の指示でアドレナリンと気道確保を実施する'
+  ],
+  pts:[
+    ['ACS（STEMI）の認識と12誘導','胸痛の性状から急性冠症候群を疑い、12誘導でST上昇（下壁）を捉えられたか'],
+    ['不整脈変化の観察と予測','房室ブロック・期外収縮・VTなどの変化に気づき、急変を予測できたか'],
+    ['除細動の準備と実施','パッドを早期に装着し、VFで速やかに解析・除細動できたか'],
+    ['心停止時の対応','胸骨圧迫の質、アドレナリン・気道確保の判断とタイミングは適切だったか'],
+    ['搬送先選定・伝送・連絡','PCI可能施設の選定、12誘導伝送、受入要請・指示要請ができたか']
+  ],
+  procs:[
+    {id:'mon',chip:'mon',label:'モニター心電図装着（四肢誘導）',steps:[{d:0,msg:'洞調律（徐脈気味）。ST上昇を認める。今後の不整脈に備えて継続監視。'}]},
+    {id:'ecg12',chip:'ecg12',label:'12誘導心電図記録',steps:[{d:0,ecg12:'inf',msg:'12誘導：II・III・aVFでST上昇、I・aVLで対側性ST低下。急性下壁心筋梗塞（STEMI）を疑う。徐脈・房室ブロック、右室梗塞の合併に注意。（モニターに12誘導を表示します）'}]},
+    {id:'o2',chip:'o2',label:'酸素投与（SpO₂低下時・リザーバー付マスク 10L/分）',steps:[{d:15,fx:{spo2:'+3'},ramp:15,msg:'SpO₂ 97%に上昇。胸痛は変わらない。'}]},
+    {id:'pos',chip:'pos',label:'体位管理（安楽な体位・半坐位）',steps:[{d:10,msg:'半坐位で少し楽になるが、胸痛は持続。'}]},
+    {id:'bg',chip:'bg',label:'血糖測定',steps:[{d:0,msg:'血糖 126 mg/dL（低血糖は否定）。'}]},
+    {id:'ecgtx',chip:'ecgtx',label:'心電図伝送（12誘導を搬送先へ）',req:['ecg12'],steps:[{d:0,msg:'搬送先の循環器医が確認：下壁STEMI。カテーテル室を準備、受入可能との返答。'}]},
+    {id:'pads',chip:'pads',label:'除細動パッド装着（急変に備えて予防的に）',steps:[{d:0,msg:'胸部にパッドを装着（心電図電極と干渉しない位置）。急変時はすぐに解析・除細動が可能。'}]},
+    {id:'dr',chip:'order',label:'医師へ特定行為の指示要請（静脈路確保）',steps:[{d:0,msg:'医師より「下壁梗塞で右室梗塞の可能性があり、ニトロは使用しない。静脈路を確保し、至急搬送。急変に備えること」との指示。'}]},
+    {id:'iv',chip:'iv',label:'静脈路確保（医師の具体的指示後・穿刺は原則2回まで）',req:['dr'],steps:[{d:0,msg:'末梢静脈路を確保。'}]},
+    {id:'call1',chip:'call1',label:'1stコール（搬送先へ連絡）',steps:[{d:0,msg:'搬送先：PCI（冠動脈インターベンション）が24時間可能な循環器救急施設。'}]},
+    {id:'dr2',chip:'order',nth:2,after:'cpa',label:'医師へ特定行為の指示要請（アドレナリン／心停止後）',steps:[{d:0,msg:'医師より「VFによる心停止。除細動を継続し、アドレナリン1mgの静脈内投与を指示。搬送を急ぐ」との指示。'}]},
+    {id:'ad',chip:'adr',after:'cpa',req:['dr2','iv'],label:'アドレナリン1mg投与（リズムチェック後）',steps:[{d:30,fx:{etco2:'+6'},ramp:15,msg:'アドレナリン1mgを静注。EtCO₂がわずかに上昇。モニターは心室細動が続く。再投与は約4分後（その都度、医師の指示が必要）。'}]},
+    {id:'adv',chip:'adv',after:'cpa',label:'気道確保（LT挿入／気管挿管）',steps:[{d:10,fx:{etco2:'+6',spo2:'+8'},ramp:15,msg:'気道確保後、胸骨圧迫を中断せずに換気を継続。EtCO₂波形を確認。'}]},
+    {id:'bvm',chip:'bvm',after:'cpa',label:'BVM(人工呼吸/補助換気)',steps:[{d:5,fx:{spo2:'+6'},ramp:10,msg:'胸郭の挙上を確認。SpO₂がわずかに上昇。'}]},
+    {id:'rosc',chip:null,after:'cpa',inst:true,req:['ad'],label:'指導者：心拍再開を付与',steps:[{d:0,fx:{hr:98,spo2:94,sys:96,dia:58,etco2:40},ramp:10,pea:false,rhythm:'nsr',st:1,rosc:true,msg:'心拍が再開した。頸動脈で脈を触知。ST上昇を伴う洞調律。「心拍再開」ボタンで時刻を記録してください。'}]}
+  ],
+  stages:[
+    {key:'c1',at:90,fx:{hr:52,sys:96,dia:58,spo2:'-1'},ramp:15,rhythm:'wenck',ecg12:'',msg:'嘔気と冷汗が強くなり「めまいがする」と訴える。モニターは2度房室ブロック（Wenckebach型）、脈拍は50台に低下。'},
+    {key:'c2',at:170,fx:{hr:38,sys:80,dia:46,spo2:'-2'},ramp:15,rhythm:'chb',msg:'意識がもうろうとしてくる（JCS 10）。モニターは完全房室ブロック、脈拍は30台。血圧が低下。'},
+    {key:'c3',at:250,fx:{hr:72,sys:92,dia:54},ramp:15,rhythm:'pvcf',msg:'房室ブロックは改善して洞調律に戻ったが、心室期外収縮が頻発する。胸痛は持続。'},
+    {key:'c4',at:315,fx:{hr:80,sys:88,dia:52},ramp:10,rhythm:'pvcm',msg:'期外収縮が多源性となり、二連発も出現（R on T に注意）。冷汗が増える。'},
+    {key:'c5',at:375,fx:{hr:90,sys:84,dia:50},ramp:10,rhythm:'nsvt',msg:'心室期外収縮のショートランが出現。「目の前が暗くなる」と訴える。'},
+    {key:'c6',at:435,fx:{hr:170,sys:70,dia:44,spo2:'-3'},ramp:10,rhythm:'vt',msg:'モニターは心室頻拍。橈骨動脈は微弱で、意識レベルが低下（JCS 30）。'},
+    {key:'cpa',at:490,fx:{spo2:60,sys:40,dia:20,etco2:12},ramp:5,rhythm:'vf',pea:false,ecg12:'',msg:'呼びかけに反応なく、呼吸が停止。頸動脈は触知不能。モニターは心室細動。直ちに胸骨圧迫を開始し、解析・除細動の準備を（CPA確認を記録）。'}
+  ],
+  path:{
+    cause:'冠動脈（下壁梗塞では多くが右冠動脈）の急性閉塞により、心筋が虚血・壊死に陥ります（ST上昇型心筋梗塞：STEMI）。虚血部位は電気的に不安定になり、房室結節の虚血による房室ブロック、虚血心筋の興奮による心室期外収縮、心室頻拍、心室細動と、不整脈が段階的に出現しやすくなります。',
+    sym:['前胸部絞扼痛・左肩〜下顎への放散痛：心筋虚血による内臓痛のため','冷汗・嘔気・顔面蒼白：迷走神経反射と交感神経の緊張のため（下壁梗塞で特に出やすい）','徐脈・房室ブロック・低血圧：右冠動脈の虚血で房室結節や洞結節が障害され、迷走神経が優位になるため','II・III・aVFのST上昇、I・aVLの対側性ST低下：下壁の貫壁性虚血を反映するため','心室期外収縮・VT・VF：虚血心筋の電気的不安定性（再分極のばらつき）のため'],
+    tx:'再灌流療法（緊急の冠動脈カテーテル治療：PCI）が治療の中心です。病院前では12誘導心電図の早期記録と伝送、PCI可能な施設の選定、急変に備えた除細動パッドの装着、酸素・静脈路確保（指示後）が重要です。VFでは直ちに胸骨圧迫と除細動を行います。',
+    pit:['下壁梗塞では右室梗塞を合併することがあり、硝酸薬で著しい低血圧になるため使用しない','胸痛が非典型（嘔気・冷汗のみ、上腹部痛）のことがあり、胃腸疾患と誤認しやすい','房室ブロックや期外収縮の増加は、VT・VFへ進む前触れのことがある。モニターから目を離さない','VFへ移行した後は、胸骨圧迫の中断を最小限にして、2分ごとの解析と早い除細動を行う']
+  }
+};
+
 /* ===== 想定（症例）エンジン ===== */
 var SCNV=0;                                   // 画面更新用カウンタ
-var SCN_SHORT={bil:'症例1 急性胆管炎',alc:'症例2 飲酒・睡眠薬',ana:'症例3 小児アナフィラキシー'};
+var SCN_SHORT={bil:'症例1 急性胆管炎',alc:'症例2 飲酒・睡眠薬',ana:'症例3 アナフィラキシー',cp:'症例4 急性心筋梗塞'};
 var SCN_CL={airway:'用手・エアウェイ気道確保',dr:'医師へ連絡（指示要請）',dr2:'医師へ指示要請（CPA）',suction:'口腔内吸引',glu:'ブドウ糖液投与',epi:'エピペン筋注',ad:'アドレナリン1mg投与',rosc:'指導者：心拍再開を付与'};
 var SCN_GOALS={
-  bil:{mon:180,o2:180,pos:240,bg:300,iv:420,dr:450,fluid:480,call1:420},
-  alc:{airway:60,o2:120,pos:180,bg:180,iv:300,dr:360,glu:420,call1:480},
-  ana:{epi:120,o2:120,pos:150,mon:150,dr:300,call1:300,aed:90,dr2:120,iv:240,ad:360}
+  bil:{mon:230,o2:230,pos:310,bg:390,iv:540,dr:580,fluid:620,call1:540},
+  alc:{airway:70,o2:140,pos:200,bg:200,iv:340,dr:400,glu:470,call1:530},
+  ana:{epi:120,o2:120,pos:150,mon:150,dr:300,call1:300,aed:90,dr2:100,iv:200,ad:300},
+  cp:{mon:120,ecg12:200,o2:200,pos:240,bg:300,ecgtx:330,pads:330,dr:300,iv:420,call1:300,dr2:100,ad:240,adv:300,bvm:90}
 };
 Object.keys(SCN_GOALS).forEach(function(k){if(SCN[k])SCN[k].goals=SCN_GOALS[k];});
 
 function scnCur(){return S.scn&&SCN[S.scn.id]?SCN[S.scn.id]:null;}
 function chipKey(p){return p.chip||('x_'+p.id);}
 function procById(c,id){var r=null;c.procs.forEach(function(p){if(p.id===id)r=p;});return r;}
-function procByChip(c,k){var r=null;c.procs.forEach(function(p){if(chipKey(p)===k)r=p;});return r;}
+function procByChip(c,k){var r=null,sc=S.scn;c.procs.forEach(function(p){if(chipKey(p)===k&&(!r||(sc&&sc.done[r.id]&&!sc.done[p.id])))r=p;});return r;}
+function scnStamped(p){var k=chipKey(p);return p.nth?occ(k).length>=p.nth:!!S.st[k];}
 function scnLabels(){var c=scnCur();if(!c)return;c.procs.forEach(function(p){if(!p.chip)LBL['x_'+p.id]=p.label;});}
 function mmss(sec){return dur(Math.max(0,sec)*1000);}
 
@@ -2017,7 +2136,7 @@ function scnPick(id){
     var c=SCN[id];if(!c)return;
     S.scn={id:id,done:{},fired:{},q:[],auto:true,feed:[],cpaAt:null,hinted:{}};
     var i=c.init,v=S.vit;
-    v.rhythm=i.rhythm;v.hr=i.hr;v.spo2=i.spo2;v.sys=i.sys;v.dia=i.dia;v.temp=i.temp;v.etco2=i.etco2;v.st=0;v.pea=false;
+    v.rhythm=i.rhythm;v.hr=i.hr;v.spo2=i.spo2;v.sys=i.sys;v.dia=i.dia;v.temp=i.temp;v.etco2=i.etco2;v.st=i.st?1:0;v.pea=false;v.ecg12='';
     RAMP=null;
   }
   S.pts=PTS0.map(function(p){return p.slice();});
@@ -2033,6 +2152,8 @@ function scnFx(fx,ramp,ex){
   var v=S.vit,ch={},k,n=0;
   if(ex&&ex.rhythm&&v.rhythm!==ex.rhythm)setRhythm(ex.rhythm);
   if(ex&&ex.pea!==undefined&&!!v.pea!==!!ex.pea)toggleFlag('pea');
+  if(ex&&ex.st!==undefined&&!!v.st!==!!ex.st)toggleFlag('st');
+  if(ex&&ex.ecg12!==undefined&&(v.ecg12||'')!==ex.ecg12)setEcg12(ex.ecg12);
   for(k in (fx||{})){var x=fx[k];ch[k]=(typeof x==='string')?eff(k)+parseFloat(x):x;n++;}
   if(n){var old=S.ramp;S.ramp=ramp||0;changeVit(ch);S.ramp=old;}
 }
@@ -2061,13 +2182,13 @@ function scnStep(pid,i){
   var c=scnCur(),p=c&&procById(c,pid);if(!p)return;
   var s=p.steps[i];if(!s)return;
   if(s.msg)scnSay(s.msg);
-  if(s.fx||s.rhythm||s.pea!==undefined)scnFx(s.fx,s.ramp,{rhythm:s.rhythm,pea:s.pea});
+  if(s.fx||s.rhythm||s.pea!==undefined||s.st!==undefined||s.ecg12!==undefined)scnFx(s.fx,s.ramp,{rhythm:s.rhythm,pea:s.pea,st:s.st,ecg12:s.ecg12});
 }
 function scnCheckProcs(){
   var c=scnCur();if(!c)return;
   c.procs.forEach(function(p){
     if(S.scn.done[p.id])return;
-    if(S.st[chipKey(p)]&&scnReqOk(p))scnTrigger(p);
+    if(scnStamped(p)&&scnReqOk(p))scnTrigger(p);
   });
 }
 /* 記録（タップ）されたとき */
@@ -2101,7 +2222,7 @@ function scnTick(){
     sc.fired[g.key]=now;
     if(g.key==='cpa')sc.cpaAt=now;
     scnSay(g.msg);
-    scnFx(g.fx,g.ramp,{rhythm:g.rhythm,pea:g.pea});
+    scnFx(g.fx,g.ramp,{rhythm:g.rhythm,pea:g.pea,st:g.st,ecg12:g.ecg12});
     if(g.key==='cpa')scnCheckProcs();
     SCNV++;save();
   });
@@ -2128,7 +2249,7 @@ function scnDrawerHTML(){
     h+='<p class="scn-note">想定を選ぶと、初期バイタルがモニターに設定され、<b>傷病者接触</b>の記録から時間経過と処置に応じて状態が自動的に変化します。評価画面には病態の概要が表示されます。</p>';
     return h;
   }
-  h+='<div class="scn-t"><b>'+esc(c.name)+'</b><span>'+esc(c.sub)+'</span></div>';
+  h+='<div class="scn-t"><b>'+esc(c.name)+'</b><span>'+esc(c.sub)+'</span></div>'+(c.time?'<p class="scn-note">'+esc(c.time)+'</p>':'');
   h+='<div class="scn-live"><div class="scn-el"><span>接触からの経過</span><b id="scnEl">—</b><button class="btn small" data-act="scnauto" aria-pressed="'+(sc.auto!==false)+'">自動変化 '+(sc.auto!==false?'ON':'OFF')+'</button></div>'+
     '<h3>伝える情報（新しい順）</h3>'+(sc.feed.length?'<ul class="feed">'+sc.feed.slice().reverse().slice(0,12).map(function(f){return '<li><span class="m">'+clk(f.ms)+(S.st.contact?'　接触+'+dur(f.ms-S.st.contact):'')+'</span>'+esc(f.text)+'</li>';}).join('')+'</ul>':'<p class="scn-note">傷病者接触を記録すると、状態の変化や処置への反応がここと時系列ログに表示されます。</p>')+'</div>';
   h+='<h3>要請内容</h3><p>'+esc(c.dispatch)+'</p>';
@@ -2308,9 +2429,9 @@ function prtEvalHTML(){
   renderChart(c);
   h+='<h2>バイタルサインの推移</h2><div class="legend">'+$('#chartLeg').innerHTML+'</div>'+$('#chartBox').innerHTML;
   var rows=allRows({ops:false}),prev=null;
-  h+='<h2>時系列</h2>'+(rows.length?'<table><thead><tr><th>時刻</th><th>経過</th><th>間隔</th><th>内容</th></tr></thead><tbody>'+rows.map(function(r){
+  h+='<h2>時系列</h2>'+(rows.length?gLegend()+'<table><thead><tr><th>時刻</th><th>経過</th><th>間隔</th><th>内容</th></tr></thead><tbody>'+rows.map(function(r){
     var t0=S.t0||r.ms,iv=prev!==null?'+'+dur(r.ms-prev):'';prev=r.ms;
-    return '<tr><td class="m">'+clk(r.ms)+'</td><td class="m">+'+dur(r.ms-t0)+'</td><td class="m">'+iv+'</td><td>'+esc(r.text)+'</td></tr>';
+    return rowTr(r,t0,iv);
   }).join('')+'</tbody></table>':'<p class="empty">記録された項目はありません。</p>');
   var no=0,nt=0,nx=0;S.pts.forEach(function(p,i){var v=ev.p[i];if(v==='o')no++;else if(v==='t')nt++;else if(v==='x')nx++;});
   h+='<h2>活動の評価<small>達成 '+no+' ／ 一部 '+nt+' ／ 未達 '+nx+'（全 '+S.pts.length+' 項目）</small></h2><table><thead><tr><th>評価項目</th><th class="sy">評価</th></tr></thead><tbody>'+S.pts.map(function(p,i){
