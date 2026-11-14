@@ -1189,13 +1189,17 @@ function miniFit(){
   var ox=(b.clientWidth-960*k)/2,oy=(b.clientHeight-480*k)/2;
   f.style.transform='translate('+ox+'px,'+oy+'px) scale('+k+')';
 }
+function miniVis(){
+  var w=miniWin();if(!w)return;
+  var p={};VIS.forEach(function(x){if(x[0]!=='name')p[x[0]]=visOn(SM.vis,x[0]);});p.name=!!SM.vis.name;p.alarms=false;p.sound=false;
+  try{w.SIM.setVis(p);}catch(e){}
+}
 function miniInit(n){
   var w=miniWin();
   if(!w){if((n||0)<40)setTimeout(function(){miniInit((n||0)+1);},150);return;}
   try{
     w.SIM.lock(true);w.SIM.setVoice(false);
-    var p={};VIS.forEach(function(x){p[x[0]]=true;});p.name=true;p.alarms=false;p.sound=false;
-    w.SIM.setVis(p);w.SIM.setOutcome(S.outcome);
+    miniVis();w.SIM.setOutcome(S.outcome);
   }catch(e){}
   MINI.ok=true;miniApply();miniCall('cpr',!!S.cpr.on);
 }
@@ -1245,7 +1249,7 @@ function onMonitor(type,dat){
       var a=visOn(pv,k[0]),b=visOn(nv,k[0]);
       if(a!==b)logAdd('sim','表示：'+k[1]+(b?' ON':' OFF'),{key:'vis'});
     });
-    SM.vis=nv;if(monOk())fwdVis(nv);syncSim();
+    SM.vis=nv;if(monOk())fwdVis(nv);miniVis();syncSim();
   }
   else if(type==='analyze'){
     if(!S.st.pads)stampQuiet('pads');
